@@ -192,7 +192,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				gpu_model = query.get('gpu_model')[0]
 				time = query.get('time')[0]
 				data_gainer = Data(config)
-				test_X, test_Y = data_gainer.get_test_data(return_label_data=True)
+				test_X, test_Y = np.array([[job, gpu_model, time, 0, 0, 0]]) #data_gainer.get_test_data(return_label_data=True)
 				pred_result = predict(config, test_X)
 				draw(config, data_gainer, pred_result)
 				msg = {'code': 1, 'error': "container not exist"}
