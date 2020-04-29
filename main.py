@@ -4,14 +4,7 @@ import os
 from sklearn.model_selection import train_test_split
 
 frame = "tensorflow"
-if frame == "pytorch":
-	from model.model_pytorch import train, predict
-elif frame == "keras":
-	from model.model_keras import train, predict
-elif frame == "tensorflow":
-	from model.model_tensorflow import train, predict
-else:
-	raise Exception("Wrong frame seletion")
+from model.model_tensorflow import train, predict
 
 
 class Config:
@@ -142,6 +135,9 @@ def draw(config, origin_data, predict_norm_data):
 
 	predict_data = predict_norm_data * origin_data.std[config.label_in_feature_columns] + \
 	               origin_data.mean[config.label_in_feature_columns]
+
+	print(label_data)
+	print(predict_data)
 
 	'''
 	for i in range(label_column_num):
