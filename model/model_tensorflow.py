@@ -86,7 +86,7 @@ def predict(config, test_X):
 
 	test_len = len(test_X)
 	with tf.Session() as sess:
-		module_file = tf.train.latest_checkpoint(config.model_save_path + config.model_name)
+		module_file = tf.train.latest_checkpoint(config.model_save_path)
 		model.saver.restore(sess, module_file)
 
 		result = np.zeros((test_len * config.time_step, config.output_size))
