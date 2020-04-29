@@ -196,12 +196,11 @@ class MyHandler(BaseHTTPRequestHandler):
 				job = query.get('job')[0]
 				gpu_model = query.get('gpu_model')[0]
 				time = query.get('time')[0]
-				t = Thread(target=train_models(), name='train_models', args=(job,))
+				t = Thread(target=train_models, name='train_models', args=(job,))
 				t.start()
 				msg = {'code': 1, 'error': "container not exist"}
 			except Exception as e:
 				msg = {'code': 2, 'error': str(e)}
-				print(e)
 			self.send_response(200)
 			self.send_header('Content-type', 'application/json')
 			self.end_headers()
