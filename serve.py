@@ -151,6 +151,7 @@ config = Config()
 
 
 def train_models():
+	print("train")
 	lock.acquire()
 	np.random.seed(config.random_seed)
 	data_gainer = Data(config)
