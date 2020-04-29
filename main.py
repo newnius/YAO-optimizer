@@ -8,7 +8,7 @@ from model.model_tensorflow import train, predict
 
 
 class Config:
-	feature_columns = list(range(2, 9))
+	feature_columns = list(range(2, 3))
 	label_columns = [4, 5]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
