@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import os
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
 frame = "pytorch"
@@ -144,6 +143,7 @@ def draw(config, origin_data, predict_norm_data):
 	predict_data = predict_norm_data * origin_data.std[config.label_in_feature_columns] + \
 	               origin_data.mean[config.label_in_feature_columns]
 
+	'''
 	for i in range(label_column_num):
 		plt.figure(i + 1)
 		plt.plot(label_X, label_data[:, i], label='label')
@@ -159,6 +159,7 @@ def draw(config, origin_data, predict_norm_data):
 			                                                                        config.used_frame))
 
 	plt.show()
+	'''
 
 
 def main(config):
