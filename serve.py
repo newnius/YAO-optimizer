@@ -72,9 +72,10 @@ class Data:
 		self.data_num = self.data.shape[0]
 		self.train_num = int(self.data_num * self.config.train_data_rate)
 
+		print(self.data)
 		self.mean = np.mean(self.data, axis=0)
 		print(1)
-		print(self.data)
+
 		self.std = np.std(self.data, axis=0)
 		self.norm_data = (self.data - self.mean) / self.std
 		print(2)
