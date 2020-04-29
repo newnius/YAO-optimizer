@@ -62,6 +62,8 @@ def train(config, train_X, train_Y, valid_X, valid_Y):
 				valid_loss = sess.run(model.loss, feed_dict=feed_dict)
 				valid_loss_array.append(valid_loss)
 
+			print(2)
+			print(valid_loss_array)
 			valid_loss_cur = np.mean(valid_loss_array)
 			print("The train loss is {:.4f}. ".format(np.mean(train_loss_array)),
 			      "The valid loss is {:.4f}.".format(valid_loss_cur))
