@@ -167,7 +167,6 @@ def train_models():
 	train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
 
 	print(train_X, valid_X, train_Y, valid_Y)
-	print("dadas")
 
 	train(config, train_X, train_Y, valid_X, valid_Y)
 
@@ -192,7 +191,8 @@ class MyHandler(BaseHTTPRequestHandler):
 				gpu_model = query.get('gpu_model')[0]
 				time = query.get('time')[0]
 				data_gainer = Data(config)
-				test_X, test_Y = np.array([[job, gpu_model, time, 0, 0, 0]]) #data_gainer.get_test_data(return_label_data=True)
+				test_X, test_Y = np.array([[job, gpu_model, time],[1,1,1]]) #data_gainer.get_test_data(return_label_data=True)
+				print(test_X, test_Y)
 				pred_result = predict(config, test_X)
 				draw(config, data_gainer, pred_result)
 				msg = {'code': 1, 'error': "container not exist"}
