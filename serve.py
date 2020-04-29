@@ -72,15 +72,10 @@ class Data:
 		self.data_num = self.data.shape[0]
 		self.train_num = int(self.data_num * self.config.train_data_rate)
 
-		print(self.data)
 		self.mean = np.mean(self.data, axis=0)
-		print(1)
 
 		self.std = np.std(self.data, axis=0)
-		print(self.std)
-		print(self.mean)
 		self.norm_data = (self.data - self.mean) / self.std
-		print(2)
 
 		self.start_num_in_test = 0
 
@@ -116,15 +111,26 @@ class Data:
 		return train_x, valid_x, train_y, valid_y
 
 	def get_test_data(self, return_label_data=False):
-		feature_data = self.norm_data[self.train_num:]
+		init_data = pd.read_csv(
+			self.config.train_data_path,
+			usecols=self.config.feature_and_label_columns
+		)
+		data, data_column_name = init_data.values, init_data.columns.tolist()
+		train_num = 0
+		mean = np.mean(data, axis=0)
+		std = np.std(data, axis=0)
+		norm_data = (data - mean) / std
+		start_num_in_test = 0
+
+		feature_data = norm_data[0:]
 		self.start_num_in_test = feature_data.shape[0] % self.config.time_step
 		time_step_size = feature_data.shape[0] // self.config.time_step
 
-		test_x = [feature_data[self.start_num_in_test + i * self.config.time_step: self.start_num_in_test + (
+		test_x = [feature_data[start_num_in_test + i * self.config.time_step: start_num_in_test + (
 				i + 1) * self.config.time_step]
 		          for i in range(time_step_size)]
 		if return_label_data:
-			label_data = self.norm_data[self.train_num + self.start_num_in_test:, self.config.label_in_feature_columns]
+			label_data = norm_data[train_num + start_num_in_test:, self.config.label_in_feature_columns]
 			return np.array(test_x), label_data
 		return np.array(test_x)
 
@@ -191,7 +197,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				gpu_model = query.get('gpu_model')[0]
 				time = query.get('time')[0]
 				data_gainer = Data(config)
-				test_X, test_Y = np.array([[job, gpu_model, time]]), np.array([[1,1,1]]) #data_gainer.get_test_data(return_label_data=True)
+				test_X, test_Y = data_gainer.get_test_data(return_label_data=True)
 				print(test_X, test_Y)
 				pred_result = predict(config, test_X)
 				print(pred_result)
