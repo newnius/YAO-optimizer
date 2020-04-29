@@ -80,6 +80,7 @@ def train(config, train_X, train_Y, valid_X, valid_Y):
 
 def predict(config, test_X):
 	config.dropout_rate = 0.1
+	tf.reset_default_graph()
 
 	with tf.variable_scope("stock_predict", reuse=tf.AUTO_REUSE):
 		model = Model(config)
