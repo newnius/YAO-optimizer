@@ -10,6 +10,7 @@ import numpy as np
 import os
 from sklearn.model_selection import train_test_split
 from model_tensorflow import train, predict
+import csv
 
 
 class Config:
@@ -49,7 +50,7 @@ class Config:
 		batch_size = 1
 		continue_flag = "continue_"
 
-	train_data_path = "./data/stock_data.csv"
+	train_data_path = "./data.csv"
 	model_save_path = "./checkpoint/"
 	figure_save_path = "./figure/"
 	do_figure_save = False
@@ -150,9 +151,19 @@ lock = Lock()
 config = Config()
 
 
-def train_models(job):
-	print("train")
+def train_models(records):
 	lock.acquire()
+
+	with open(config.train_data_path, 'w', newline='') as csvfile:
+		spamwriter = csv.writer(
+			csvfile, delimiter=' ',
+			quotechar='|', quoting=csv.QUOTE_MINIMAL
+		)
+		spamwriter.writerow(["Job", "Time", "GPU", "Pre", "Main", "Post"])
+		for record in records:
+			print(record)
+			spamwriter.writerow(record)
+
 	np.random.seed(config.random_seed)
 	data_gainer = Data(config)
 
@@ -192,15 +203,14 @@ class MyHandler(BaseHTTPRequestHandler):
 			self.wfile.write(bytes(json.dumps(msg), "utf-8"))
 
 		elif req.path == "/train":
-			#try:
-			job = query.get('job')[0]
-			gpu_model = query.get('gpu_model')[0]
-			time = query.get('time')[0]
-			t = Thread(target=train_models, name='train_models', args=(job,))
-			t.start()
-			msg = {'code': 1, 'error': "container not exist"}
-			#except Exception as e:
-			msg = {'code': 2, 'error': str(e)}
+			try:
+				data = query.get('data')[0]
+				records = json.load(data)
+				t = Thread(target=train_models, name='train_models', args=(records,))
+				t.start()
+				msg = {'code': 1, 'error': "container not exist"}
+			except Exception as e:
+				msg = {'code': 2, 'error': str(e)}
 			self.send_response(200)
 			self.send_header('Content-type', 'application/json')
 			self.end_headers()
