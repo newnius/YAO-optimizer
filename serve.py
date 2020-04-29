@@ -191,7 +191,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				gpu_model = query.get('gpu_model')[0]
 				time = query.get('time')[0]
 				data_gainer = Data(config)
-				test_X, test_Y = np.array([[job, gpu_model, time],[1,1,1]]) #data_gainer.get_test_data(return_label_data=True)
+				test_X, test_Y = np.array([[job, gpu_model, time, 1,1,1]]) #data_gainer.get_test_data(return_label_data=True)
 				print(test_X, test_Y)
 				pred_result = predict(config, test_X)
 				print(pred_result)
