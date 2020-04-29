@@ -201,6 +201,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				msg = {'code': 1, 'error': "container not exist"}
 			except Exception as e:
 				msg = {'code': 2, 'error': str(e)}
+				print(e)
 			self.send_response(200)
 			self.send_header('Content-type', 'application/json')
 			self.end_headers()
