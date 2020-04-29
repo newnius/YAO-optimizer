@@ -2,9 +2,8 @@ import pandas as pd
 import numpy as np
 import os
 from sklearn.model_selection import train_test_split
-
-frame = "tensorflow"
 from model_tensorflow import train, predict
+
 
 class Config:
 	feature_columns = list([2,5])
@@ -52,9 +51,9 @@ class Config:
 	if not os.path.exists(figure_save_path):
 		os.mkdir(figure_save_path)
 
-	used_frame = frame
-	model_postfix = {"pytorch": ".pth", "keras": ".h5", "tensorflow": ".ckpt"}
-	model_name = "model_" + continue_flag + used_frame + model_postfix[used_frame]
+	#used_frame = frame
+	#model_postfix = {"pytorch": ".pth", "keras": ".h5", "tensorflow": ".ckpt"}
+	#model_name = "model_" + continue_flag + used_frame + model_postfix[used_frame]
 
 
 class Data:
