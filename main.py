@@ -3,7 +3,7 @@ import numpy as np
 import os
 from sklearn.model_selection import train_test_split
 
-frame = "pytorch"
+frame = "tensorflow"
 if frame == "pytorch":
 	from model.model_pytorch import train, predict
 elif frame == "keras":
