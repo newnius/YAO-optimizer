@@ -151,19 +151,8 @@ lock = Lock()
 config = Config()
 
 
-def train_models(records):
+def train_models():
 	lock.acquire()
-
-	with open(config.train_data_path, 'w', newline='') as csvfile:
-		spamwriter = csv.writer(
-			csvfile, delimiter=' ',
-			quotechar='|', quoting=csv.QUOTE_MINIMAL
-		)
-		spamwriter.writerow(["Job", "Time", "GPU", "Pre", "Main", "Post"])
-		for record in records:
-			print(record)
-			spamwriter.writerow(record)
-
 	np.random.seed(config.random_seed)
 	data_gainer = Data(config)
 
@@ -202,10 +191,30 @@ class MyHandler(BaseHTTPRequestHandler):
 			self.end_headers()
 			self.wfile.write(bytes(json.dumps(msg), "utf-8"))
 
+		elif req.path == "/feed":
+			try:
+				job = query.get('job')[0]
+				model = query.get('model')[0]
+				time = query.get('time')[0]
+				pre = query.get('pre')[0]
+				main = query.get('main')[0]
+				post = query.get('post')[0]
+				with open(config.train_data_path, 'a+', newline='') as csvfile:
+					spamwriter = csv.writer(
+						csvfile, delimiter=' ',
+						quotechar='|', quoting=csv.QUOTE_MINIMAL
+					)
+					spamwriter.writerow([job, model, time, pre, main, post])
+				msg = {'code': 1, 'error': "container not exist"}
+			except Exception as e:
+				msg = {'code': 2, 'error': str(e)}
+			self.send_response(200)
+			self.send_header('Content-type', 'application/json')
+			self.end_headers()
+			self.wfile.write(bytes(json.dumps(msg), "utf-8"))
+
 		elif req.path == "/train":
 			try:
-				data = query.get('data')[0]
-				records = json.load(data)
 				t = Thread(target=train_models, name='train_models', args=(records,))
 				t.start()
 				msg = {'code': 1, 'error': "container not exist"}
@@ -253,6 +262,13 @@ if __name__ == '__main__':
 		# incoming request
 		server = HTTPServer(('', PORT_NUMBER), MyHandler)
 		print('Started http server on port ', PORT_NUMBER)
+
+		with open(config.train_data_path, 'w', newline='') as csvfile:
+			spamwriter = csv.writer(
+				csvfile, delimiter=' ',
+				quotechar='|', quoting=csv.QUOTE_MINIMAL
+			)
+			spamwriter.writerow(["Job", "Model", "Time", "Pre", "Main", "Post"])
 
 		# Wait forever for incoming http requests
 		server.serve_forever()
