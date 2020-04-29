@@ -4,9 +4,11 @@ import os
 from sklearn.model_selection import train_test_split
 from model_tensorflow import train, predict
 
+frame = "tensorflow"
+
 
 class Config:
-	feature_columns = list([2,5])
+	feature_columns = list([2, 5])
 	label_columns = [5]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
@@ -51,9 +53,9 @@ class Config:
 	if not os.path.exists(figure_save_path):
 		os.mkdir(figure_save_path)
 
-	#used_frame = frame
-	#model_postfix = {"pytorch": ".pth", "keras": ".h5", "tensorflow": ".ckpt"}
-	#model_name = "model_" + continue_flag + used_frame + model_postfix[used_frame]
+	used_frame = frame
+	model_postfix = {"pytorch": ".pth", "keras": ".h5", "tensorflow": ".ckpt"}
+	model_name = "model_" + continue_flag + used_frame + model_postfix[used_frame]
 
 
 class Data:
