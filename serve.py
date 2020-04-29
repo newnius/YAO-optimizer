@@ -150,7 +150,7 @@ lock = Lock()
 config = Config()
 
 
-def train_models():
+def train_models(job):
 	print("train")
 	lock.acquire()
 	np.random.seed(config.random_seed)
@@ -192,15 +192,15 @@ class MyHandler(BaseHTTPRequestHandler):
 			self.wfile.write(bytes(json.dumps(msg), "utf-8"))
 
 		elif req.path == "/train":
-			try:
-				job = query.get('job')[0]
-				gpu_model = query.get('gpu_model')[0]
-				time = query.get('time')[0]
-				t = Thread(target=train_models, name='train_models', args=(job,))
-				t.start()
-				msg = {'code': 1, 'error': "container not exist"}
-			except Exception as e:
-				msg = {'code': 2, 'error': str(e)}
+			#try:
+			job = query.get('job')[0]
+			gpu_model = query.get('gpu_model')[0]
+			time = query.get('time')[0]
+			t = Thread(target=train_models, name='train_models', args=(job,))
+			t.start()
+			msg = {'code': 1, 'error': "container not exist"}
+			#except Exception as e:
+			msg = {'code': 2, 'error': str(e)}
 			self.send_response(200)
 			self.send_header('Content-type', 'application/json')
 			self.end_headers()
