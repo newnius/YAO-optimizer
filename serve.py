@@ -211,7 +211,7 @@ class MyHandler(BaseHTTPRequestHandler):
 
 	# Handler for the POST requests
 	def do_POST(self):
-		if self.path == "/train":
+		if self.path == "/train2":
 			form = cgi.FieldStorage(
 				fp=self.rfile,
 				headers=self.headers,
