@@ -145,7 +145,7 @@ def draw(config, origin_data, predict_norm_data):
 	print(predict_data)
 
 
-PORT_NUMBER = 8000
+PORT_NUMBER = 8080
 lock = Lock()
 config = Config()
 
