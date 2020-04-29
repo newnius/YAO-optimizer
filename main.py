@@ -164,11 +164,11 @@ def main(config):
 
 	if config.do_train:
 		train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
-		model = train(config, train_X, train_Y, valid_X, valid_Y)
+		train(config, train_X, train_Y, valid_X, valid_Y)
 
 	if config.do_predict:
 		test_X, test_Y = data_gainer.get_test_data(return_label_data=True)
-		pred_result = predict(config, test_X, model)
+		pred_result = predict(config, test_X)
 		draw(config, data_gainer, pred_result)
 
 
