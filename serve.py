@@ -77,6 +77,8 @@ class Data:
 		print(1)
 
 		self.std = np.std(self.data, axis=0)
+		print(self.std)
+		print(self.mean)
 		self.norm_data = (self.data - self.mean) / self.std
 		print(2)
 
