@@ -163,6 +163,9 @@ def train_models():
 	data_gainer = Data(config)
 
 	train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
+
+	print(train_X, valid_X, train_Y, valid_Y)
+
 	train(config, train_X, train_Y, valid_X, valid_Y)
 
 	lock.release()
