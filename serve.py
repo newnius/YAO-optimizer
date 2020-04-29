@@ -14,8 +14,8 @@ import csv
 
 
 class Config:
-	feature_columns = list([2, 5])
-	label_columns = [5]
+	feature_columns = list([0, 5])
+	label_columns = [3, 4, 5]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
 
@@ -201,7 +201,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				post = query.get('post')[0]
 				with open(config.train_data_path, 'a+', newline='') as csvfile:
 					spamwriter = csv.writer(
-						csvfile, delimiter=' ',
+						csvfile, delimiter=',',
 						quotechar='|', quoting=csv.QUOTE_MINIMAL
 					)
 					spamwriter.writerow([job, model, time, pre, main, post])
@@ -215,7 +215,7 @@ class MyHandler(BaseHTTPRequestHandler):
 
 		elif req.path == "/train":
 			try:
-				t = Thread(target=train_models, name='train_models', args=(records,))
+				t = Thread(target=train_models, name='train_models', args=())
 				t.start()
 				msg = {'code': 1, 'error': "container not exist"}
 			except Exception as e:
@@ -265,7 +265,7 @@ if __name__ == '__main__':
 
 		with open(config.train_data_path, 'w', newline='') as csvfile:
 			spamwriter = csv.writer(
-				csvfile, delimiter=' ',
+				csvfile, delimiter=',',
 				quotechar='|', quoting=csv.QUOTE_MINIMAL
 			)
 			spamwriter.writerow(["Job", "Model", "Time", "Pre", "Main", "Post"])
