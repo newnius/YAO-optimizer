@@ -58,7 +58,7 @@ class Config:
 	if not os.path.exists(figure_save_path):
 		os.mkdir(figure_save_path)
 
-	used_frame = frame
+	used_frame = "tensorflow"
 	model_postfix = {"pytorch": ".pth", "keras": ".h5", "tensorflow": ".ckpt"}
 	model_name = "model_" + continue_flag + used_frame + model_postfix[used_frame]
 
@@ -148,7 +148,6 @@ def draw(config, origin_data, predict_norm_data):
 PORT_NUMBER = 8000
 lock = Lock()
 config = Config()
-frame = "tensorflow"
 
 
 def train_models():
