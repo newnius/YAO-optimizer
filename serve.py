@@ -116,22 +116,27 @@ class Data:
 			self.config.test_data_path,
 			usecols=self.config.feature_and_label_columns
 		)
-		data, data_column_name = init_data.values, init_data.columns.tolist()
-		train_num = 0
-		mean = np.mean(data, axis=0)
-		std = np.std(data, axis=0)
-		norm_data = (data - mean) / std
-		start_num_in_test = 0
-
-		feature_data = norm_data[0:]
-		self.start_num_in_test = feature_data.shape[0] % self.config.time_step
+		norm_data = (init_data - self.mean) / self.std
+		feature_data = norm_data[:]
 		time_step_size = feature_data.shape[0] // self.config.time_step
 
-		test_x = [feature_data[start_num_in_test + i * self.config.time_step: start_num_in_test + (
+		test_x = [feature_data[0 + i * self.config.time_step: 0 + (
 				i + 1) * self.config.time_step]
 		          for i in range(time_step_size)]
 		if return_label_data:
-			label_data = norm_data[train_num + start_num_in_test:, self.config.label_in_feature_columns]
+			label_data = norm_data[0:, self.config.label_in_feature_columns]
+			return np.array(test_x), label_data
+		return np.array(test_x)
+
+		feature_data = self.norm_data[self.train_num:]
+		self.start_num_in_test = feature_data.shape[0] % self.config.time_step
+		time_step_size = feature_data.shape[0] // self.config.time_step
+
+		test_x = [feature_data[self.start_num_in_test + i * self.config.time_step: self.start_num_in_test + (
+				i + 1) * self.config.time_step]
+		          for i in range(time_step_size)]
+		if return_label_data:
+			label_data = self.norm_data[self.train_num + self.start_num_in_test:, self.config.label_in_feature_columns]
 			return np.array(test_x), label_data
 		return np.array(test_x)
 
