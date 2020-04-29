@@ -76,18 +76,19 @@ def train(config, train_X, train_Y, valid_X, valid_Y):
 				if bad_epoch >= config.patience:
 					print(" The training stops early in epoch {}".format(epoch))
 					break
+	return model
 
 
-def predict(config, test_X):
+def predict(config, test_X, model):
 	config.dropout_rate = 0.1
 
-	with tf.variable_scope("stock_predict", reuse=tf.AUTO_REUSE):
-		model = Model(config)
+	#with tf.variable_scope("stock_predict", reuse=tf.AUTO_REUSE):
+		#model = Model(config)
 
 	test_len = len(test_X)
 	with tf.Session() as sess:
-		module_file = tf.train.latest_checkpoint(config.model_save_path)
-		model.saver.restore(sess, module_file)
+		#module_file = tf.train.latest_checkpoint(config.model_save_path)
+		#model.saver.restore(sess, module_file)
 
 		result = np.zeros((test_len * config.time_step, config.output_size))
 		for step in range(test_len):
