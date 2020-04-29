@@ -14,7 +14,7 @@ import csv
 
 
 class Config:
-	feature_columns = list([0, 1, 2, 3, 4, 5])
+	feature_columns = list(range(0, 6))
 	label_columns = [3, 4, 5]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
@@ -27,7 +27,7 @@ class Config:
 	hidden_size = 128
 	lstm_layers = 2
 	dropout_rate = 0.2
-	time_step = 20
+	time_step = 5
 
 	do_train = True
 	do_predict = True
@@ -79,8 +79,10 @@ class Data:
 		self.start_num_in_test = 0
 
 	def read_data(self):
-		init_data = pd.read_csv(self.config.train_data_path,
-		                        usecols=self.config.feature_and_label_columns)
+		init_data = pd.read_csv(
+			self.config.train_data_path,
+			usecols=self.config.feature_and_label_columns
+		)
 		return init_data.values, init_data.columns.tolist()
 
 	def get_train_and_valid_data(self):
