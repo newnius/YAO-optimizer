@@ -123,7 +123,7 @@ class Data:
 		return np.array(test_x)
 
 
-def draw(config: Config, origin_data: Data, predict_norm_data: np.ndarray):
+def draw(config, origin_data, predict_norm_data):
 	label_norm_data = origin_data.norm_data[origin_data.train_num + origin_data.start_num_in_test:,
 	                  config.label_in_feature_columns]
 	assert label_norm_data.shape[0] == predict_norm_data.shape[
