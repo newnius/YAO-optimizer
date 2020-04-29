@@ -4,8 +4,7 @@ import os
 from sklearn.model_selection import train_test_split
 
 frame = "tensorflow"
-from model.model_tensorflow import train, predict
-
+from model_tensorflow import train, predict
 
 class Config:
 	feature_columns = list([2,5])
@@ -138,24 +137,6 @@ def draw(config, origin_data, predict_norm_data):
 
 	print(label_data)
 	print(predict_data)
-
-	'''
-	for i in range(label_column_num):
-		plt.figure(i + 1)
-		plt.plot(label_X, label_data[:, i], label='label')
-		plt.plot(predict_X, predict_data[:, i], label='predict')
-		plt.legend(loc='upper right')
-		plt.xlabel("Day")
-		plt.ylabel("Price")
-		plt.title("Predict stock {} price with {}".format(label_name[i], config.used_frame))
-		print("The predicted stock {} for the next {} day(s) is: ".format(label_name[i], config.predict_day),
-		      np.squeeze(predict_data[-config.predict_day:, i]))
-		if config.do_figure_save:
-			plt.savefig(config.figure_save_path + "{}predict_{}_with_{}.png".format(config.continue_flag, label_name[i],
-			                                                                        config.used_frame))
-
-	plt.show()
-	'''
 
 
 def main(config):

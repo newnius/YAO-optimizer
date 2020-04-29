@@ -1,87 +1,89 @@
-import tensorflow as tf
-import numpy as np
-import tushare as ts
-import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+#!/usr/bin/python
+from threading import Thread
+from threading import Lock
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import cgi
+import json
+from urllib import parse
 
-timesteps = seq_length = 7
-data_dim = 5
-output_dim = 1
+PORT_NUMBER = 8000
 
-stock_data = ts.get_k_data('600000', start='2015-01-01', end='2017-12-01')
-xy = stock_data[['open', 'close', 'high', 'low', 'volume']]
-
-# xy_new = pd.DataFrame()
-# scaler = MinMaxScaler()
-
-# scaler.fit(xy)
-# t = scaler.transform(xy)
-
-# for col in xy.columns:
-#	xy_new.ix[:, col] = t[col]
-
-x = xy
-y = xy[['close']]
-dataX = []
-dataY = []
-for i in range(0, len(y) - seq_length):
-	_x = x[i:i + seq_length]
-	_y = y.loc[i + seq_length]
-	#print(_x, "->", _y)
-	dataX.append(_x)
-	dataY.append(_y)
-
-x_real = np.vstack(dataX).reshape(-1, seq_length, data_dim)
-y_real = np.vstack(dataY).reshape(-1, output_dim)
-print(x_real.shape)
-print(y_real.shape)
-dataX = x_real
-dataY = y_real
-
-train_size = int(len(dataY) * 0.7)
-test_size = len(dataY) - train_size
-trainX, testX = np.array(dataX[0:train_size]), np.array(dataX[train_size:len(dataX)])
-trainY, testY = np.array(dataY[0:train_size]), np.array(dataY[train_size:len(dataY)])
-
-X = tf.placeholder(tf.float32, [None, seq_length, data_dim])
-Y = tf.placeholder(tf.float32, [None, 1])
+lock = Lock()
 
 
-def add_layer(inputs, in_size, out_size, activation_function=None):
-	inputs = tf.reshape(inputs, [-1, in_size])
-	Weights = tf.Variable(tf.random_normal([in_size, out_size]))
-	biases = tf.Variable(tf.zeros([1, out_size]) + 0.1)
-	Wx_plus_b = tf.matmul(inputs, Weights) + biases
-	if activation_function is None:
-		outputs = Wx_plus_b
-	else:
-		outputs = activation_function(Wx_plus_b)
-	return outputs
+def train_models():
+	lock.acquire()
+
+	lock.release()
 
 
-outsize_first = 5
-l1 = add_layer(X, data_dim, outsize_first, activation_function=tf.nn.relu)
-l1_output = tf.reshape(l1, [-1, seq_length, outsize_first])
+class MyHandler(BaseHTTPRequestHandler):
+	# Handler for the GET requests
+	def do_GET(self):
+		req = parse.urlparse(self.path)
+		query = parse.parse_qs(req.query)
 
-cell = tf.nn.rnn_cell.BasicLSTMCell(num_units=output_dim, state_is_tuple=True)
-outputs, _states = tf.nn.dynamic_rnn(cell, l1_output, dtype=tf.float32)
-Y_pred = outputs[:, -1]
+		if req.path == "/ping":
+			self.send_response(200)
+			self.send_header('Content-type', 'application/json')
+			self.end_headers()
+			self.wfile.write(bytes("pong", "utf-8"))
 
-loss = tf.reduce_sum(tf.square(Y_pred - Y))
+		elif req.path == "/predict":
+			try:
+				job = query.get('job')[0]
+				gpu_model = query.get('gpu_model')[0]
+				time = query.get('time')[0]
+				msg = {'code': 1, 'error': "container not exist"}
+			except Exception as e:
+				msg = {'code': 2, 'error': str(e)}
+			self.send_response(200)
+			self.send_header('Content-type', 'application/json')
+			self.end_headers()
+			self.wfile.write(bytes(json.dumps(msg), "utf-8"))
 
-optimizer = tf.train.GradientDescentOptimizer(0.01)
-train = optimizer.minimize(loss)
+		else:
+			self.send_error(404, 'File Not Found: %s' % self.path)
 
-sess = tf.Session()
-sess.run(tf.global_variables_initializer())
-for i in range(100):
-	_, l = sess.run(
-		[train, loss],
-		feed_dict={X: trainX, Y: trainY}
-	)
-	#print(i, l)
+	# Handler for the POST requests
+	def do_POST(self):
+		if self.path == "/train":
+			form = cgi.FieldStorage(
+				fp=self.rfile,
+				headers=self.headers,
+				environ={
+					'REQUEST_METHOD': 'POST',
+					'CONTENT_TYPE': self.headers['Content-Type'],
+				})
+			try:
+				job = form.getvalue('job')[0]
+				data = form.getvalue('records')[0]
+				records = json.load(data)
+				t = Thread(target=train_models(), name='train_models', args=(job, records,))
+				t.start()
+				msg = {"code": 0, "error": ""}
+			except Exception as e:
+				msg = {"code": 1, "error": str(e)}
+			self.send_response(200)
+			self.send_header('Content-type', 'application/json')
+			self.end_headers()
+			self.wfile.write(bytes(json.dumps(msg), "utf-8"))
 
-testPredict = sess.run(Y_pred, feed_dict={X: testX})
+		else:
+			self.send_error(404, 'File Not Found: %s' % self.path)
 
-print(testY)
-print(testPredict)
+
+if __name__ == '__main__':
+	try:
+		# Create a web server and define the handler to manage the
+		# incoming request
+		server = HTTPServer(('', PORT_NUMBER), MyHandler)
+		print('Started http server on port ', PORT_NUMBER)
+
+		# Wait forever for incoming http requests
+		server.serve_forever()
+
+	except KeyboardInterrupt:
+		print('^C received, shutting down the web server')
+
+	server.socket.close()
