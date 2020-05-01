@@ -217,7 +217,7 @@ class MyHandler(BaseHTTPRequestHandler):
 					df = pd.read_csv(config.train_data_path,
 					                 usecols=['job', 'model', 'time', 'utilCPU', 'utilGPU', 'pre', 'main', 'post'])
 					df = df.tail(config.time_step)
-					#df = df.append(data, ignore_index=True)
+					df = df.append(data, ignore_index=True)
 					df.to_csv('./data/test_data.csv', index=False)
 
 				np.random.seed(config.random_seed)
