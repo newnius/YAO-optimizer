@@ -156,7 +156,7 @@ def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
 
 	print("2")
 
-	print(label_norm_data[:,5:8])
+	print(label_norm_data[:, 5:8])
 	label_data = label_norm_data[:, 5:8] * std_yqy[5:8] + mean_yqy[5:8]
 	print(label_data)
 
@@ -216,8 +216,8 @@ class MyHandler(BaseHTTPRequestHandler):
 				with open(config.train_data_path, 'r') as f:
 					df = pd.read_csv(config.train_data_path,
 					                 usecols=['job', 'model', 'time', 'utilCPU', 'utilGPU', 'pre', 'main', 'post'])
-					df = df.tail(config.time_step - 1)
-					df = df.append(data, ignore_index=True)
+					df = df.tail(config.time_step)
+					#df = df.append(data, ignore_index=True)
 					df.to_csv('./data/test_data.csv', index=False)
 
 				np.random.seed(config.random_seed)
