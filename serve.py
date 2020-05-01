@@ -16,8 +16,8 @@ from io import StringIO
 
 
 class Config:
-	feature_columns = list([2, 5])
-	label_columns = [5]
+	feature_columns = list(range(0, 8))
+	label_columns = [5, 6, 7]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
 
