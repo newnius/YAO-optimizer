@@ -148,7 +148,8 @@ def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	label_column_num = 3
 
 	loss = \
-		np.mean((label_norm_data[config.predict_day:] - predict_norm_data[:-config.predict_day]) ** 2, axis=0)
+		np.mean((label_norm_data[config.predict_day:][:, 5][:,np.newaxis] - predict_norm_data[:-config.predict_day][0:]) ** 2,
+		        axis=0)
 	print("The mean squared error of stock {} is ".format(label_name), loss)
 
 	# label_X = range(origin_data.data_num - origin_data.train_num - origin_data.start_num_in_test)
