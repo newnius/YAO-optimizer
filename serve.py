@@ -11,8 +11,6 @@ import os
 from sklearn.model_selection import train_test_split
 from model_tensorflow import train, predict
 import csv
-from collections import deque
-from io import StringIO
 
 
 class Config:
@@ -182,6 +180,7 @@ def train_models():
 	train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
 
 	print(train_X, valid_X, train_Y, valid_Y)
+	print(train_X.shape)
 
 	train(config, train_X, train_Y, valid_X, valid_Y)
 
