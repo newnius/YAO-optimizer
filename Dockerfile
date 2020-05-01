@@ -14,7 +14,9 @@ RUN pip3 install pandas sklearn tensorflow-gpu==1.14
 
 ADD bootstrap.sh /etc/bootstrap.sh
 
-ADD agent.py /root/agent.py
+RUN mkdir /root/data/
+ADD serve.py /root/serve.py
+ADD model_tensorflow.py /root/model_tensorflow.py
 
 WORKDIR /root
 
