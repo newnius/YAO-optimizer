@@ -4,6 +4,7 @@ import os
 from sklearn.model_selection import train_test_split
 from model_tensorflow import train, predict
 
+
 frame = "tensorflow"
 
 
@@ -21,14 +22,16 @@ class Config:
 	hidden_size = 128
 	lstm_layers = 2
 	dropout_rate = 0.2
-	time_step = 20
+	time_step = 5
 
 	do_train = True
+	# do_train = False
 	do_predict = True
 	add_train = False
 	shuffle_train_data = True
 
-	train_data_rate = 0.95
+	# train_data_rate = 0.95 #comment yqy
+	train_data_rate = 1 #add yqy
 	valid_data_rate = 0.15
 
 	batch_size = 64
@@ -44,9 +47,16 @@ class Config:
 		batch_size = 1
 		continue_flag = "continue_"
 
-	train_data_path = "./data/stock_data.csv"
+	#comment yqy
+	# train_data_path = "./data/stock_data.csv"
 	model_save_path = "./checkpoint/"
 	figure_save_path = "./figure/"
+	#comment end
+	# add yqy
+	train_data_path = "./data/stock_data_30.csv"
+	# model_save_path = "./checkpoint/30/"
+	# figure_save_path = "./figure/30/"
+	# add end
 	do_figure_save = False
 	if not os.path.exists(model_save_path):
 		os.mkdir(model_save_path)
@@ -114,6 +124,16 @@ class Data:
 			return np.array(test_x), label_data
 		return np.array(test_x)
 
+	# add yqy
+	def get_test_data_yqy(self, test_data_yqy=None):
+		if test_data_yqy is None:
+			test_data_yqy = []
+		# test_data_yqy=test_data_yqy[1:21]
+		feature_data=(test_data_yqy - self.mean) / self.std
+		test_x=[feature_data]
+		return np.array(test_x)
+	# add end
+
 
 def draw(config, origin_data, predict_norm_data):
 	label_norm_data = origin_data.norm_data[origin_data.train_num + origin_data.start_num_in_test:,
@@ -137,21 +157,58 @@ def draw(config, origin_data, predict_norm_data):
 	               origin_data.mean[config.label_in_feature_columns]
 
 	print(label_data)
+	print("____________________________________________")
 	print(predict_data)
 
+
+def draw_yqy(config, origin_data, predict_norm_data,mean_yqy,std_yqy):# 这里origin_data等同于test_data_values_yqy
+	label_norm_data = (origin_data - mean_yqy) / std_yqy
+	assert label_norm_data.shape[0] == predict_norm_data.shape[0], "The element number in origin and predicted data is different"
+
+	#label_norm_data=label_norm_data[:,1]
+	label_name = 'high'
+	label_column_num = 1
+
+	loss = np.mean((label_norm_data[config.predict_day:][:,1] - predict_norm_data[:-config.predict_day][0:]) ** 2, axis=0)[1]
+	print("The mean squared error of stock {} is ".format(label_name), loss)
+
+	# label_X = range(origin_data.data_num - origin_data.train_num - origin_data.start_num_in_test)
+	# predict_X = [x + config.predict_day for x in label_X]
+
+	label_data = label_norm_data[:,1] * std_yqy[1]+ mean_yqy[1]
+
+	predict_data = predict_norm_data * std_yqy[1]+ mean_yqy[1]
+
+	print(label_data)
+	print(predict_data)
+	# print(label_data[-1])
+	# print(predict_data[-1][0])
 
 def main(config):
 	np.random.seed(config.random_seed)
 	data_gainer = Data(config)
+
+	# add yqy
+	mean_yqy=Data(config).mean
+	std_yqy=Data(config).std
+	#add end
+
 
 	if config.do_train:
 		train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
 		train(config, train_X, train_Y, valid_X, valid_Y)
 
 	if config.do_predict:
-		test_X, test_Y = data_gainer.get_test_data(return_label_data=True)
+		# add yqy
+		test_data_yqy = pd.read_csv("./data/test_data.csv",usecols=list([2, 5]))
+		test_data_values_yqy=test_data_yqy.values[:]
+		# test_data_yqy=[104.3,104.39]
+		test_X =data_gainer.get_test_data_yqy(test_data_values_yqy)
+		# add end
+		# test_X, test_Y = data_gainer.get_test_data(return_label_data=True)# comment yqy
 		pred_result = predict(config, test_X)
-		draw(config, data_gainer, pred_result)
+		# draw(config, data_gainer, pred_result)# comment yqy
+		draw_yqy(config, test_data_values_yqy, pred_result,mean_yqy,std_yqy)
 
 
 if __name__ == "__main__":
