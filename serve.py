@@ -213,15 +213,12 @@ class MyHandler(BaseHTTPRequestHandler):
 					df = pd.read_csv(config.train_data_path,
 					                 usecols=['job', 'model', 'time', 'utilCPU', 'utilGPU', 'pre', 'main', 'post'])
 					df = df.tail(config.time_step - 1)
-					print(df)
 					df = df.append(data, ignore_index=True)
 					df.to_csv('./data/test_data.csv', index=False)
 
-					print(df)
-
 				np.random.seed(config.random_seed)
 				data_gainer = Data(config)
-				test_data_yqy = pd.read_csv("./data/test_data.csv", usecols=config.feature_and_label_columns)
+				test_data_yqy = pd.read_csv("./data/test_data.csv", usecols=list(range(0, 8)))
 				test_data_values = test_data_yqy.values[:]
 				test_X = data_gainer.get_test_data_yqy(test_data_values)
 				pred_result = predict(config, test_X)
