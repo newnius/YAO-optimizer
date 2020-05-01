@@ -315,7 +315,7 @@ if __name__ == '__main__':
 				csvfile, delimiter=',',
 				quotechar='|', quoting=csv.QUOTE_MINIMAL
 			)
-			spamwriter.writerow(["Job", "Model", "Time", "Pre", "Main", "Post"])
+			spamwriter.writerow(["job", "model", "time", "utilGPU", "utilCPU", "pre", "main", "post"])
 
 		# Wait forever for incoming http requests
 		server.serve_forever()
