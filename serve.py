@@ -211,14 +211,14 @@ class MyHandler(BaseHTTPRequestHandler):
 
 				with open(config.train_data_path, 'r') as f:
 					q = deque(f, config.time_step - 1)
-					df = pd.read_csv(StringIO(''.join(q)), usecols=config.feature_and_label_columns)
+					df = pd.read_csv(StringIO(''.join(q)), header=None)
 					print(df)
 					df.append(data, ignore_index=True)
 					df.to_csv('./data/test_data.csv')
 
 				np.random.seed(config.random_seed)
 				data_gainer = Data(config)
-				test_data_yqy = pd.read_csv("./data/test_data.csv", usecols=list(range(0, 8)))
+				test_data_yqy = pd.read_csv("./data/test_data.csv", usecols=config.feature_and_label_columns)
 				test_data_values = test_data_yqy.values[:]
 				test_X = data_gainer.get_test_data_yqy(test_data_values)
 				pred_result = predict(config, test_X)
