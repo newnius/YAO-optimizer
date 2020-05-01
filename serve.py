@@ -115,9 +115,8 @@ class Data:
 		time_step_size = feature_data.shape[0] // self.config.time_step
 
 		test_x = [feature_data[self.start_num_in_test + i * self.config.time_step: self.start_num_in_test + (
-				i + 1) * self.config.time_step]
-		          for i in range(time_step_size)]
-		print("test_x is", test_x)
+				i + 1) * self.config.time_step] for i in range(time_step_size)]
+
 		if return_label_data:
 			label_data = self.norm_data[self.train_num + self.start_num_in_test:, self.config.label_in_feature_columns]
 			return np.array(test_x), label_data
@@ -129,7 +128,7 @@ class Data:
 			test_data_yqy = []
 		# test_data_yqy=test_data_yqy[1:21]
 		feature_data = (test_data_yqy - self.mean) / self.std
-		test_x = [feature_data]
+		test_x = [feature_data][:, 0]
 		print(test_x)
 		return np.array(test_x)
 
