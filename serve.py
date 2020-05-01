@@ -214,7 +214,8 @@ class MyHandler(BaseHTTPRequestHandler):
 					df = pd.read_csv(StringIO(''.join(q)), header=None)
 					print(df)
 					df.append(data, ignore_index=True)
-					df.to_csv('./data/test_data.csv')
+					print(df)
+					df.to_csv('./data/test_data.csv', index=False)
 
 				np.random.seed(config.random_seed)
 				data_gainer = Data(config)
