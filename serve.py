@@ -211,10 +211,14 @@ class MyHandler(BaseHTTPRequestHandler):
 
 				with open(config.train_data_path, 'r') as f:
 					q = deque(f, config.time_step - 1)
-					df = pd.read_csv(StringIO(''.join(q)), header=
-					['job', 'model', 'time', 'utilCPU', 'utilGPU', 'pre', 'main', 'post'])
+					df = pd.read_csv(StringIO(''.join(q)),
+					                 header=['job', 'model', 'time', 'utilCPU', 'utilGPU', 'pre', 'main', 'post'])
+
+					print(df)
 					df = df.append(data, ignore_index=True)
 					df.to_csv('./data/test_data.csv', index=False)
+
+					print(df)
 
 				np.random.seed(config.random_seed)
 				data_gainer = Data(config)
