@@ -14,7 +14,7 @@ import csv
 
 
 class Config:
-	feature_columns = list(range(0, 2))
+	feature_columns = list(range(0, 1))
 	label_columns = [1]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
