@@ -14,7 +14,7 @@ import csv
 
 
 class Config:
-	feature_columns = list(range(0, 1))
+	feature_columns = list(range(0, 2))
 	label_columns = [1]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
@@ -184,7 +184,7 @@ def train_models():
 	if train_X.shape[0] < 200:
 		config.batch_size = 16
 
-	train(config, train_X, train_Y, valid_X, valid_Y)
+	train(config, train_X[:, :1], train_Y, valid_X[:, :1], valid_Y)
 
 	lock.release()
 
