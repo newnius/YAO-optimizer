@@ -137,7 +137,7 @@ class Data:
 # add end
 
 
-def draw_yqy(config, origin_data, predict_norm_data, mean_yqy, std_yqy):  # 这里origin_data等同于test_data_values_yqy
+def draw_yqy(config, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	label_norm_data = (origin_data - mean_yqy) / std_yqy
 	assert label_norm_data.shape[0] == predict_norm_data.shape[
 		0], "The element number in origin and predicted data is different"
