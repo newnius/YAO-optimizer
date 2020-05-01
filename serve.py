@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from model_tensorflow import train, predict
 import csv
 from collections import deque
-from StringIO import StringIO
+from io import StringIO
 
 
 class Config:
