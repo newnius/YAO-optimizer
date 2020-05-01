@@ -159,7 +159,8 @@ def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	label_data = label_norm_data[:, 5:8] * std_yqy[5:8] + mean_yqy[5:8]
 	print(label_data)
 
-	predict_data = predict_norm_data * std_yqy[1] + mean_yqy[1]
+	print(predict_norm_data)
+	predict_data = predict_norm_data * std_yqy[config.label_in_feature_columns] + mean_yqy[config.label_in_feature_columns]
 	print(predict_data)
 
 	print(label_data[-1])
