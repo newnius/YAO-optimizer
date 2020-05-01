@@ -21,7 +21,7 @@ class Config:
 
 	predict_day = 1
 
-	input_size = len(feature_columns) - 1
+	input_size = len(feature_columns)
 	output_size = len(label_columns)
 
 	hidden_size = 128
@@ -35,7 +35,7 @@ class Config:
 	shuffle_train_data = True
 
 	# train_data_rate = 0.95 #comment yqy
-	train_data_rate = 0.95  # add yqy
+	train_data_rate = 1  # add yqy
 	valid_data_rate = 0.15
 
 	batch_size = 64
@@ -115,8 +115,8 @@ class Data:
 		time_step_size = feature_data.shape[0] // self.config.time_step
 
 		test_x = [feature_data[self.start_num_in_test + i * self.config.time_step: self.start_num_in_test + (
-				i + 1) * self.config.time_step] for i in range(time_step_size)]
-
+				i + 1) * self.config.time_step]
+		          for i in range(time_step_size)]
 		if return_label_data:
 			label_data = self.norm_data[self.train_num + self.start_num_in_test:, self.config.label_in_feature_columns]
 			return np.array(test_x), label_data
@@ -128,9 +128,7 @@ class Data:
 			test_data_yqy = []
 		# test_data_yqy=test_data_yqy[1:21]
 		feature_data = (test_data_yqy - self.mean) / self.std
-		print(feature_data[:, :1])
-		test_x = [feature_data[:, :1]]
-		print(feature_data)
+		test_x = [feature_data]
 		return np.array(test_x)
 
 
@@ -142,6 +140,7 @@ def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	assert label_norm_data.shape[0] == predict_norm_data.shape[
 		0], "The element number in origin and predicted data is different"
 
+	print("dsa")
 	# label_norm_data=label_norm_data[:,1]
 	label_name = 'high'
 	label_column_num = 3
@@ -153,14 +152,16 @@ def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	# label_X = range(origin_data.data_num - origin_data.train_num - origin_data.start_num_in_test)
 	# predict_X = [x + config.predict_day for x in label_X]
 
-	# print(label_norm_data[:, 1:2])
-	label_data = label_norm_data[:, 1:2] * std_yqy[1:2] + mean_yqy[1:2]
-	# print(label_data)
+	print("2")
 
-	# print(predict_norm_data)
+	print(label_norm_data[:, 1:2])
+	label_data = label_norm_data[:, 1:2] * std_yqy[1:2] + mean_yqy[1:2]
+	print(label_data)
+
+	print(predict_norm_data)
 	predict_data = predict_norm_data * std_yqy[config.label_in_feature_columns] + mean_yqy[
 		config.label_in_feature_columns]
-	# print(predict_data)
+	print(predict_data)
 
 	print(label_data[:, -1])
 	print(predict_data[:, -1])
@@ -178,13 +179,14 @@ def train_models():
 
 	train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
 
+	print(train_X, valid_X, train_Y, valid_Y)
+	print(train_X.shape[0])
 	if train_X.shape[0] < 500:
 		config.batch_size = 32
 	if train_X.shape[0] < 200:
 		config.batch_size = 16
 
-	print(train_X[:, :, :1], valid_X[:, :, :1], train_Y, valid_Y)
-	train(config, train_X[:, :, :1], train_Y, valid_X[:, :, :1], valid_Y)
+	train(config, train_X, train_Y, valid_X, valid_Y)
 
 	lock.release()
 
@@ -328,7 +330,7 @@ if __name__ == '__main__':
 				csvfile, delimiter=',',
 				quotechar='|', quoting=csv.QUOTE_MINIMAL
 			)
-			# spamwriter.writerow(["job", "model", "time", "utilGPU", "utilCPU", "pre", "main", "post"])
+			#spamwriter.writerow(["job", "model", "time", "utilGPU", "utilCPU", "pre", "main", "post"])
 			spamwriter.writerow(["seq", "value"])
 
 		# Wait forever for incoming http requests
