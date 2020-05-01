@@ -240,15 +240,18 @@ class MyHandler(BaseHTTPRequestHandler):
 				job = query.get('job')[0]
 				model = query.get('model')[0]
 				time = query.get('time')[0]
+				utilGPU = query.get('utilGPU')[0]
+				utilCPU = query.get('utilCPU')[0]
 				pre = query.get('pre')[0]
 				main = query.get('main')[0]
 				post = query.get('post')[0]
+
 				with open(config.train_data_path, 'a+', newline='') as csvfile:
 					spamwriter = csv.writer(
 						csvfile, delimiter=',',
 						quotechar='|', quoting=csv.QUOTE_MINIMAL
 					)
-					spamwriter.writerow([job, model, time, pre, main, post])
+					spamwriter.writerow([job, model, time, utilGPU, utilCPU, pre, main, post])
 				msg = {'code': 1, 'error': "container not exist"}
 			except Exception as e:
 				msg = {'code': 2, 'error': str(e)}
