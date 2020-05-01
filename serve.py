@@ -142,6 +142,7 @@ def draw_yqy(config, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	assert label_norm_data.shape[0] == predict_norm_data.shape[
 		0], "The element number in origin and predicted data is different"
 
+	print("dasdsadsadas")
 	# label_norm_data=label_norm_data[:,1]
 	label_name = 'high'
 	label_column_num = 1

@@ -87,8 +87,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/serve.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="220" column="94" lean-forward="true" selection-start-line="220" selection-start-column="94" selection-end-line="220" selection-end-column="94" />
+            <state relative-caret-position="1299">
+              <caret line="220" column="29" selection-start-line="220" selection-start-column="16" selection-end-line="220" selection-end-column="29" />
               <folding>
                 <element signature="e#18#46#0" expanded="true" />
                 <marker date="1588327012079" expanded="true" signature="5494:5496" ph="..." />
@@ -214,7 +214,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588327017525" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588327466466" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -255,12 +255,12 @@
       <option name="presentableId" value="Default" />
       <updated>1588152877746</updated>
       <workItem from="1588152880522" duration="16973000" />
-      <workItem from="1588319878551" duration="6168000" />
+      <workItem from="1588319878551" duration="6452000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23141000" />
+    <option name="totallyTimeSpent" value="23425000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -375,8 +375,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/serve.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="220" column="94" lean-forward="true" selection-start-line="220" selection-start-column="94" selection-end-line="220" selection-end-column="94" />
+        <state relative-caret-position="1299">
+          <caret line="220" column="29" selection-start-line="220" selection-start-column="16" selection-end-line="220" selection-end-column="29" />
           <folding>
             <element signature="e#18#46#0" expanded="true" />
             <marker date="1588327012079" expanded="true" signature="5494:5496" ph="..." />
