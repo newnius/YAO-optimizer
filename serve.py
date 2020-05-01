@@ -117,10 +117,10 @@ class Data:
 		test_x = [feature_data[self.start_num_in_test + i * self.config.time_step: self.start_num_in_test + (
 				i + 1) * self.config.time_step]
 		          for i in range(time_step_size)]
+		print("test_x is", test_x)
 		if return_label_data:
 			label_data = self.norm_data[self.train_num + self.start_num_in_test:, self.config.label_in_feature_columns]
 			return np.array(test_x), label_data
-		print(test_x)
 		return np.array(test_x)
 
 	# add yqy
