@@ -142,28 +142,35 @@ def draw_yqy(config, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	assert label_norm_data.shape[0] == predict_norm_data.shape[
 		0], "The element number in origin and predicted data is different"
 
-	print("dasdsadsadas")
 	# label_norm_data=label_norm_data[:,1]
-	label_name = 'high'
+	label_names = ['pre', 'main', 'post']
 	label_column_num = 1
 
-	loss = \
-		np.mean((label_norm_data[config.predict_day:][:, 1] - predict_norm_data[:-config.predict_day][0:]) ** 2,
-		        axis=0)[1]
-	print("The mean squared error of stock {} is ".format(label_name), loss)
+	loss1 = \
+		np.mean((label_norm_data[config.predict_day:][:, 5] - predict_norm_data[:-config.predict_day][0:]) ** 2,
+		        axis=0)[5]
+	loss2 = \
+		np.mean((label_norm_data[config.predict_day:][:, 6] - predict_norm_data[:-config.predict_day][0:]) ** 2,
+		        axis=0)[6]
+	loss3 = \
+		np.mean((label_norm_data[config.predict_day:][:, 7] - predict_norm_data[:-config.predict_day][0:]) ** 2,
+		        axis=0)[7]
+	print("The mean squared error of stock {} is ".format(label_names[0]), loss1)
+	print("The mean squared error of stock {} is ".format(label_names[1]), loss2)
+	print("The mean squared error of stock {} is ".format(label_names[2]), loss3)
 
 	# label_X = range(origin_data.data_num - origin_data.train_num - origin_data.start_num_in_test)
 	# predict_X = [x + config.predict_day for x in label_X]
 
-	label_data = label_norm_data[:, 1] * std_yqy[1] + mean_yqy[1]
+	label_datas = label_norm_data * std_yqy + mean_yqy
 
-	predict_data = predict_norm_data * std_yqy[1] + mean_yqy[1]
+	predict_datas = predict_norm_data * std_yqy + mean_yqy
 
-	print(label_data)
-	print(predict_data)
+	print(label_datas)
+	print(predict_datas)
 
-	print(label_data[-1])
-	print(predict_data[-1])
+	print(label_datas[-1])
+	print(predict_datas[-1])
 
 
 PORT_NUMBER = 8080
