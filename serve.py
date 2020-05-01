@@ -128,6 +128,7 @@ class Data:
 			test_data_yqy = []
 		# test_data_yqy=test_data_yqy[1:21]
 		feature_data = (test_data_yqy - self.mean) / self.std
+		print(feature_data[:, :1])
 		test_x = [feature_data]
 		print(feature_data)
 		return np.array(test_x)
