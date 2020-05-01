@@ -77,7 +77,7 @@ class Data:
 		self.train_num = int(self.data_num * self.config.train_data_rate)
 
 		self.mean = np.mean(self.data, axis=0)
-		self.std = np.std(self.data + 0.0001, axis=0)
+		self.std = np.std(self.data, axis=0) + 0.0001
 		self.norm_data = (self.data - self.mean) / self.std
 
 		self.start_num_in_test = 0
