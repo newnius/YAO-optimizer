@@ -120,6 +120,7 @@ class Data:
 		if return_label_data:
 			label_data = self.norm_data[self.train_num + self.start_num_in_test:, self.config.label_in_feature_columns]
 			return np.array(test_x), label_data
+		print(test_x)
 		return np.array(test_x)
 
 	# add yqy
@@ -129,6 +130,7 @@ class Data:
 		# test_data_yqy=test_data_yqy[1:21]
 		feature_data = (test_data_yqy - self.mean) / self.std
 		test_x = [feature_data]
+		print(test_x)
 		return np.array(test_x)
 
 
