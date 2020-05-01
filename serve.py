@@ -180,7 +180,11 @@ def train_models():
 	train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
 
 	print(train_X, valid_X, train_Y, valid_Y)
-	print(train_X.shape)
+	print(train_X.shape[0])
+	if train_X.shape[0] < 500:
+		config.batch_size = 32
+	if train_X.shape[0] < 200:
+		config.batch_size = 16
 
 	train(config, train_X, train_Y, valid_X, valid_Y)
 
