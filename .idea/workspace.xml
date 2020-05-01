@@ -45,7 +45,7 @@
         <counts>
           <entry key="Dockerfile" value="75" />
           <entry key="md" value="104" />
-          <entry key="py" value="2085" />
+          <entry key="py" value="2087" />
           <entry key="sh" value="5" />
         </counts>
       </usages-collector>
@@ -54,7 +54,7 @@
           <entry key="Bash" value="5" />
           <entry key="Dockerfile" value="75" />
           <entry key="Markdown" value="104" />
-          <entry key="Python" value="2085" />
+          <entry key="Python" value="2087" />
         </counts>
       </usages-collector>
     </session>
@@ -76,11 +76,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/serve.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="219" column="21" selection-start-line="219" selection-start-column="21" selection-end-line="219" selection-end-column="21" />
+            <state relative-caret-position="164">
+              <caret line="218" column="53" selection-start-line="218" selection-start-column="53" selection-end-line="218" selection-end-column="53" />
               <folding>
                 <element signature="e#18#46#0" expanded="true" />
-                <marker date="1588333259272" expanded="true" signature="5636:5638" ph="..." />
+                <marker date="1588333523250" expanded="true" signature="5636:5638" ph="..." />
               </folding>
             </state>
           </provider>
@@ -203,7 +203,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588333480672" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588333595786" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -244,12 +244,12 @@
       <option name="presentableId" value="Default" />
       <updated>1588152877746</updated>
       <workItem from="1588152880522" duration="16973000" />
-      <workItem from="1588319878551" duration="10360000" />
+      <workItem from="1588319878551" duration="10569000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27333000" />
+    <option name="totallyTimeSpent" value="27542000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -363,11 +363,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/serve.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="219" column="21" selection-start-line="219" selection-start-column="21" selection-end-line="219" selection-end-column="21" />
+        <state relative-caret-position="164">
+          <caret line="218" column="53" selection-start-line="218" selection-start-column="53" selection-end-line="218" selection-end-column="53" />
           <folding>
             <element signature="e#18#46#0" expanded="true" />
-            <marker date="1588333259272" expanded="true" signature="5636:5638" ph="..." />
+            <marker date="1588333523250" expanded="true" signature="5636:5638" ph="..." />
           </folding>
         </state>
       </provider>
