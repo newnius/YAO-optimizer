@@ -16,8 +16,8 @@ from io import StringIO
 
 
 class Config:
-	feature_columns = list(range(0, 8))
-	label_columns = [5, 6, 7]
+	feature_columns = list(range(0, 2))
+	label_columns = [1]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
 
@@ -148,7 +148,7 @@ def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
 	label_column_num = 3
 
 	loss = \
-		np.mean((label_norm_data[config.predict_day:, 5:8] - predict_norm_data[:-config.predict_day]) ** 2, axis=0)
+		np.mean((label_norm_data[config.predict_day:, 1:2] - predict_norm_data[:-config.predict_day]) ** 2, axis=0)
 	print("The mean squared error of stock {} is ".format(label_name), loss)
 
 	# label_X = range(origin_data.data_num - origin_data.train_num - origin_data.start_num_in_test)
@@ -156,8 +156,8 @@ def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
 
 	print("2")
 
-	print(label_norm_data[:, 5:8])
-	label_data = label_norm_data[:, 5:8] * std_yqy[5:8] + mean_yqy[5:8]
+	print(label_norm_data[:, 1:2])
+	label_data = label_norm_data[:, 1:2] * std_yqy[1:2] + mean_yqy[1:2]
 	print(label_data)
 
 	print(predict_norm_data)
@@ -213,16 +213,20 @@ class MyHandler(BaseHTTPRequestHandler):
 					'post': 0
 				}
 
+				data = {
+					'seq': query.get('job')[0],
+					'value': query.get('model')[0],
+				}
+
 				with open(config.train_data_path, 'r') as f:
-					df = pd.read_csv(config.train_data_path,
-					                 usecols=['job', 'model', 'time', 'utilCPU', 'utilGPU', 'pre', 'main', 'post'])
+					df = pd.read_csv(config.train_data_path, usecols=['seq', 'value'])
 					df = df.tail(config.time_step - 1)
 					df = df.append(data, ignore_index=True)
 					df.to_csv('./data/test_data.csv', index=False)
 
 				np.random.seed(config.random_seed)
 				data_gainer = Data(config)
-				test_data_yqy = pd.read_csv("./data/test_data.csv", usecols=list(range(0, 8)))
+				test_data_yqy = pd.read_csv("./data/test_data.csv", usecols=list(range(0, 2)))
 				test_data_values = test_data_yqy.values[:]
 				test_X = data_gainer.get_test_data_yqy(test_data_values)
 				pred_result = predict(config, test_X)
@@ -250,12 +254,16 @@ class MyHandler(BaseHTTPRequestHandler):
 				main = query.get('main')[0]
 				post = query.get('post')[0]
 
+				seq = query.get('seq')[0]
+				value = query.get('value')[0]
+
 				with open(config.train_data_path, 'a+', newline='') as csvfile:
 					spamwriter = csv.writer(
 						csvfile, delimiter=',',
 						quotechar='|', quoting=csv.QUOTE_MINIMAL
 					)
-					spamwriter.writerow([job, model, time, utilGPU, utilCPU, pre, main, post])
+					# spamwriter.writerow([job, model, time, utilGPU, utilCPU, pre, main, post])
+					spamwriter.writerow([seq, value])
 				msg = {'code': 1, 'error': "container not exist"}
 			except Exception as e:
 				msg = {'code': 2, 'error': str(e)}
@@ -319,7 +327,8 @@ if __name__ == '__main__':
 				csvfile, delimiter=',',
 				quotechar='|', quoting=csv.QUOTE_MINIMAL
 			)
-			spamwriter.writerow(["job", "model", "time", "utilGPU", "utilCPU", "pre", "main", "post"])
+			#spamwriter.writerow(["job", "model", "time", "utilGPU", "utilCPU", "pre", "main", "post"])
+			spamwriter.writerow(["seq", "value"])
 
 		# Wait forever for incoming http requests
 		server.serve_forever()
