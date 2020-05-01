@@ -21,7 +21,7 @@ class Config:
 
 	predict_day = 1
 
-	input_size = len(feature_columns)
+	input_size = len(feature_columns)-1
 	output_size = len(label_columns)
 
 	hidden_size = 128
@@ -182,7 +182,7 @@ def train_models():
 	if train_X.shape[0] < 200:
 		config.batch_size = 16
 
-	print(train_X[:, :1], valid_X[:, :1], train_Y, valid_Y)
+	print(train_X[:1, ], valid_X[:1, :], train_Y, valid_Y)
 	train(config, train_X[:, :1], train_Y, valid_X[:, :1], valid_Y)
 
 	lock.release()
