@@ -60,6 +60,9 @@ def invert_scale(scaler, X, yhat):
 
 # fit an LSTM network to training data
 def fit_lstm(train, batch_size, nb_epoch, neurons):
+	t = train.shape[0] % batch_size
+	train = train[train.shape[0] - t * batch_size:]
+
 	X, y = train[:, 0:-1], train[:, -1]
 	X = X.reshape(X.shape[0], 1, X.shape[1])
 	model = Sequential()
