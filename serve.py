@@ -126,7 +126,7 @@ def train_models(job):
 	train_trimmed = train_scaled[t1:, :]
 	model = fit_lstm(train_trimmed, batch_size, 30, 4)
 
-	model.saver.save('./data/checkpoint-' + job)
+	model.save('./data/checkpoint-' + job)
 
 	models[job]['scaler'] = scaler
 	models[job]['batch_size'] = batch_size
