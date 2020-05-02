@@ -19,6 +19,7 @@ from keras.layers import LSTM
 from math import sqrt
 import numpy
 import random
+import traceback
 
 PORT_NUMBER = 8080
 lock = Lock()
@@ -216,6 +217,8 @@ class MyHandler(BaseHTTPRequestHandler):
 				if not success:
 					msg = {'code': 2, 'error': "Job " + job + " not exist"}
 			except Exception as e:
+				track = traceback.format_exc()
+				print(track)
 				msg = {'code': 1, 'error': str(e)}
 
 			self.send_response(200)
