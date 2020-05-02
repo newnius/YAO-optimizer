@@ -9,7 +9,6 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from math import sqrt
 import numpy
-from keras.optimizers import Adam
 
 
 # frame a sequence as a supervised learning problem
@@ -75,21 +74,14 @@ def fit_lstm(train, batch_size2, nb_epoch, neurons):
 	return model
 
 
-# make a one-step forecast
-def forecast_lstm(model, batch_size, X):
-	X = X.reshape(1, 1, len(X))
-	yhat = model.predict(X, batch_size=batch_size)
-	return yhat[0, 0]
-
-
-# run a repeated experiment
-def experiment(repeats, series, seed):
+# run a experiment
+def experiment(series):
 	# transform data to be stationary
 	raw_values = series.values
 	diff_values = difference(raw_values, 1)
 	# transform data to be supervised learning
-	lag2 = 4
-	supervised = timeseries_to_supervised(diff_values, lag2)
+	lag = 4
+	supervised = timeseries_to_supervised(diff_values, lag)
 	supervised_values = supervised.values
 
 	batch_size = 32
@@ -102,59 +94,40 @@ def experiment(repeats, series, seed):
 	# split data into train and test-sets
 	train, test = supervised_values[0:-test_data_num], supervised_values[-test_data_num:]
 	# transform the scale of the data
-	print(test)
+
 	scaler, train_scaled, test_scaled = scale(train, test)
-	print(test_scaled)
+
 	# run experiment
 	error_scores = list()
-	for r in range(repeats):
-		# fit the model
-		t1 = train.shape[0] % batch_size
-		t2 = test.shape[0] % batch_size
+	# fit the model
+	t1 = train.shape[0] % batch_size
+	t2 = test.shape[0] % batch_size
 
-		train_trimmed = train_scaled[t1:, :]
-		lstm_model = fit_lstm(train_trimmed, batch_size, 30, 4)
-		# forecast the entire training dataset to build up state for forecasting
-		print(train_trimmed)
-		print(train_trimmed[:, 0])
-		print(train_trimmed[:, :-1])
-		# if seed:
-		#	train_reshaped = train_trimmed[:, :-1].reshape(len(train_trimmed), 1, lag2)
-		#	lstm_model.predict(train_reshaped, batch_size=batch_size)
-		# forecast test dataset
-		test_reshaped = test_scaled[:, 0:-1]
-		test_reshaped = test_reshaped.reshape(len(test_reshaped), 1, lag2)
-		output = lstm_model.predict(test_reshaped, batch_size=batch_size)
-		predictions = list()
-		for i in range(len(output)):
-			yhat = output[i, 0]
-			X = test_scaled[i, 0:-1]
-			# invert scaling
-			yhat = invert_scale(scaler, X, yhat)
-			# invert differencing
-			yhat = inverse_difference(raw_values, yhat, len(test_scaled) + 1 - i)
-			# store forecast
-			predictions.append(yhat)
-		# report performance
-		rmse = sqrt(mean_squared_error(raw_values[-test_data_num:], predictions))
-		print(predictions, raw_values[-test_data_num:])
-		print('%d) Test RMSE: %.3f' % (r + 1, rmse))
-		error_scores.append(rmse)
+	train_trimmed = train_scaled[t1:, :]
+	lstm_model = fit_lstm(train_trimmed, batch_size, 30, 4)
+
+	# forecast the entire training dataset to build up state for forecasting
+	test_reshaped = test_scaled[:, 0:-1]
+	test_reshaped = test_reshaped.reshape(len(test_reshaped), 1, lag)
+	output = lstm_model.predict(test_reshaped, batch_size=batch_size)
+	predictions = list()
+	for i in range(len(output)):
+		yhat = output[i, 0]
+		X = test_scaled[i, 0:-1]
+		# invert scaling
+		yhat = invert_scale(scaler, X, yhat)
+		# invert differencing
+		yhat = inverse_difference(raw_values, yhat, len(test_scaled) + 1 - i)
+		# store forecast
+		predictions.append(yhat)
+	# report performance
+	rmse = sqrt(mean_squared_error(raw_values[-test_data_num:], predictions))
+	print(predictions, raw_values[-test_data_num:])
+	error_scores.append(rmse)
 	return error_scores
 
 
 # load dataset
 series = read_csv('data.csv', header=0, index_col=0, squeeze=True)
-# experiment
-repeats = 1
-results = DataFrame()
-# with seeding
-with_seed = experiment(repeats, series, True)
-results['with-seed'] = with_seed
-# without seeding
-# without_seed = experiment(repeats, series, False)
-# results['without-seed'] = without_seed
-# summarize results
-print(results.describe())
-# save boxplot
-# results.boxplot()
+
+with_seed = experiment(series)
