@@ -192,8 +192,8 @@ class MyHandler(BaseHTTPRequestHandler):
 
 		elif req.path == "/predict":
 			try:
-				job = query.get('job')[0],
-				seq = query.get('model')[0]
+				job = query.get('job')[0]
+				seq = query.get('seq')[0]
 
 				predict(job, seq)
 				msg = {'code': 1, 'error': "container not exist"}
