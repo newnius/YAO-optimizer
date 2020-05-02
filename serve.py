@@ -234,7 +234,8 @@ class MyHandler(BaseHTTPRequestHandler):
 
 		elif req.path == "/train":
 			try:
-				t = Thread(target=train_models, name='train_models', args=())
+				job = query.get('job')[0]
+				t = Thread(target=train_models, name='train_models', args=(job,))
 				t.start()
 				msg = {'code': 0, 'error': ""}
 			except Exception as e:
