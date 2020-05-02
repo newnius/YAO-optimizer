@@ -86,7 +86,7 @@ def experiment(repeats, series, seed):
 	raw_values = series.values
 	diff_values = difference(raw_values, 1)
 	# transform data to be supervised learning
-	supervised = timeseries_to_supervised(diff_values, 1)
+	supervised = timeseries_to_supervised(diff_values, 4)
 	supervised_values = supervised.values
 	# split data into train and test-sets
 	train, test = supervised_values[0:-12], supervised_values[-12:]
