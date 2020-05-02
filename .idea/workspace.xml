@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0aedafd8-e57e-462a-beda-65af0b91f3df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -47,7 +48,7 @@
         <counts>
           <entry key="Dockerfile" value="81" />
           <entry key="md" value="104" />
-          <entry key="py" value="2508" />
+          <entry key="py" value="2552" />
           <entry key="sh" value="5" />
         </counts>
       </usages-collector>
@@ -56,7 +57,7 @@
           <entry key="Bash" value="5" />
           <entry key="Dockerfile" value="81" />
           <entry key="Markdown" value="104" />
-          <entry key="Python" value="2508" />
+          <entry key="Python" value="2552" />
         </counts>
       </usages-collector>
     </session>
@@ -78,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/serve.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1984">
-              <caret line="186" column="30" selection-start-line="186" selection-start-column="30" selection-end-line="186" selection-end-column="30" />
+            <state relative-caret-position="87">
+              <caret line="326" lean-forward="true" selection-start-line="326" selection-end-line="326" />
               <folding>
                 <element signature="e#18#46#0" expanded="true" />
                 <marker date="1588357497851" expanded="true" signature="5576:5578" ph="..." />
@@ -91,8 +92,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="108" column="18" selection-start-line="108" selection-start-column="6" selection-end-line="108" selection-end-column="18" />
+            <state relative-caret-position="164">
+              <caret line="112" column="20" lean-forward="true" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="20" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -223,7 +224,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588383675146" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588383870868" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -264,12 +265,12 @@
       <option name="presentableId" value="Default" />
       <updated>1588152877746</updated>
       <workItem from="1588152880522" duration="16973000" />
-      <workItem from="1588319878551" duration="19571000" />
+      <workItem from="1588319878551" duration="20056000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36544000" />
+    <option name="totallyTimeSpent" value="37029000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -372,17 +373,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/serve.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1984">
-          <caret line="186" column="30" selection-start-line="186" selection-start-column="30" selection-end-line="186" selection-end-column="30" />
-          <folding>
-            <element signature="e#18#46#0" expanded="true" />
-            <marker date="1588357497851" expanded="true" signature="5576:5578" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -393,10 +383,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/serve.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="326" lean-forward="true" selection-start-line="326" selection-end-line="326" />
+          <folding>
+            <element signature="e#18#46#0" expanded="true" />
+            <marker date="1588357497851" expanded="true" signature="5576:5578" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="108" column="18" selection-start-line="108" selection-start-column="6" selection-end-line="108" selection-end-column="18" />
+        <state relative-caret-position="164">
+          <caret line="112" column="20" lean-forward="true" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="20" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
