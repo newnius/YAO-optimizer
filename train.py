@@ -9,6 +9,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from math import sqrt
 import numpy
+from keras.optimizers import Adam
 
 
 # frame a sequence as a supervised learning problem
