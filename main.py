@@ -29,7 +29,7 @@ class Config:
 	time_step = 5
 
 	# do_train = True
-	do_train = False
+	do_train = True
 	do_predict = True
 	add_train = False
 	shuffle_train_data = True
