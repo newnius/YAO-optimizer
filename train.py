@@ -102,7 +102,7 @@ scaler, train_scaled, test_scaled = scale(train, test)
 lstm_model = fit_lstm(train_scaled, 32, 30, 4)
 # forecast the entire training dataset to build up state for forecasting
 train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
-lstm_model.predict(train_reshaped, batch_size=1)
+lstm_model.predict(train_reshaped, batch_size=32)
 
 # walk-forward validation on the test data
 predictions = list()
