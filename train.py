@@ -69,8 +69,8 @@ def fit_lstm(train, batch_size2, nb_epoch, neurons):
 	model.compile(loss='mean_squared_error', optimizer='adam')
 	for i in range(nb_epoch):
 		model.fit(X, y, epochs=1, batch_size=batch_size2, verbose=0, shuffle=False)
-		#loss = model.evaluate(X, y)
-		#print("Epoch {}/{}, loss = {}".format(i, nb_epoch, loss))
+		# loss = model.evaluate(X, y)
+		# print("Epoch {}/{}, loss = {}".format(i, nb_epoch, loss))
 		model.reset_states()
 	return model
 
@@ -95,6 +95,8 @@ def experiment(repeats, series, seed):
 	batch_size = 32
 	if supervised_values.shape[0] < 100:
 		batch_size = 16
+	if supervised_values.shape[0] < 60:
+		batch_size = 8
 	test_data_num = batch_size
 
 	# split data into train and test-sets
@@ -150,9 +152,9 @@ results = DataFrame()
 with_seed = experiment(repeats, series, True)
 results['with-seed'] = with_seed
 # without seeding
-without_seed = experiment(repeats, series, False)
-results['without-seed'] = without_seed
+# without_seed = experiment(repeats, series, False)
+# results['without-seed'] = without_seed
 # summarize results
 print(results.describe())
 # save boxplot
-results.boxplot()
+# results.boxplot()
