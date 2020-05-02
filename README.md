@@ -2,10 +2,10 @@
 
 ## Feed
 
-/feed?job=1&seq=1&value=3
+/feed?job=lstm&seq=1&value=3
 
 ## train
-/train
+/train?job=lstm
 
 ## predict
-/predict?job=1&seq=2
+/predict?job=lstm&seq=2
