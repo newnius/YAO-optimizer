@@ -90,7 +90,7 @@ def experiment(repeats, series, seed):
 	raw_values = series.values
 	diff_values = difference(raw_values, 1)
 	# transform data to be supervised learning
-	lag2 = 4
+	lag2 = 10
 	supervised = timeseries_to_supervised(diff_values, lag2)
 	supervised_values = supervised.values
 	# split data into train and test-sets
