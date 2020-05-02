@@ -94,6 +94,8 @@ def train_models(job):
 	lag = 4
 	supervised = timeseries_to_supervised(diff_values, lag)
 	print(supervised)
+	print(type(supervised))
+	print(supervised.shape)
 	supervised_values = supervised.values
 	print(supervised_values)
 
@@ -156,8 +158,10 @@ def predict(job, seq):
 	print(type(supervised))
 	print(supervised)
 	supervised_values = supervised[batch_size:]
+	print(type(supervised_values))
 	print(supervised_values)
-	test = supervised_values#.values
+	print(supervised_values.shape)
+	test = supervised_values.values
 	print(test)
 
 	test = test.reshape(test.shape[0], test.shape[1])
