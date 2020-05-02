@@ -86,7 +86,8 @@ def experiment(repeats, series, seed):
 	raw_values = series.values
 	diff_values = difference(raw_values, 1)
 	# transform data to be supervised learning
-	supervised = timeseries_to_supervised(diff_values, 4)
+	lag2 = 4
+	supervised = timeseries_to_supervised(diff_values, lag2)
 	supervised_values = supervised.values
 	# split data into train and test-sets
 	train, test = supervised_values[0:-12], supervised_values[-12:]
@@ -104,7 +105,7 @@ def experiment(repeats, series, seed):
 		lstm_model = fit_lstm(train_trimmed, batch_size, 30, 4)
 		# forecast the entire training dataset to build up state for forecasting
 		if seed:
-			train_reshaped = train_trimmed[:, 0].reshape(len(train_trimmed), 1, 1)
+			train_reshaped = train_trimmed[:, 0].reshape(len(train_trimmed), 1, lag2)
 			lstm_model.predict(train_reshaped, batch_size=batch_size)
 		# forecast test dataset
 		test_reshaped = test_scaled[:, 0:-1]
