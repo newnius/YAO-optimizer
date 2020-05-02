@@ -137,18 +137,18 @@ def predict(job, seq):
 	}
 
 	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
-	df = df.tail(models[job]['batch_size'] * 2 - 1)
+	df = df.tail(int(models[job]['batch_size']) * 2 - 1)
 	df = df.append(data, ignore_index=True)
+
+	batch_size = int(models[job]['batch_size'])
 
 	# transform data to be stationary
 	raw_values = df.values
-	diff_values = difference(raw_values, 1)[models[job]['batch_size']:]
+	diff_values = difference(raw_values, 1)[batch_size:]
 	# transform data to be supervised learning
 	lag = 4
 	supervised = timeseries_to_supervised(diff_values, lag)
 	supervised_values = supervised.values
-
-	batch_size = models[job]['batch_size']
 
 	test = supervised_values
 
@@ -192,9 +192,12 @@ class MyHandler(BaseHTTPRequestHandler):
 			try:
 				job = query.get('job')[0]
 				seq = query.get('seq')[0]
-
-				predict(job, int(seq))
 				msg = {'code': 0, 'error': ""}
+
+				pred, success = predict(job, int(seq))
+
+				if not success:
+					msg = {'code': 2, 'error': "Job " + job + " not exist"}
 			except Exception as e:
 				msg = {'code': 1, 'error': str(e)}
 
