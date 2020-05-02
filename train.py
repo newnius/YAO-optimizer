@@ -100,12 +100,10 @@ def experiment(repeats, series, seed):
 	for r in range(repeats):
 		# fit the model
 		batch_size = 4
-		t = train.shape[0] % batch_size
-		train = train[train.shape[0] - t * batch_size:]
-		t = test.shape[0] % batch_size
-		test = test[test.shape[0] - t * batch_size:]
+		t1 = train.shape[0] % batch_size
+		t2 = test.shape[0] % batch_size
 
-		train_trimmed = train_scaled[2:, :]
+		train_trimmed = train_scaled[train_scaled.shape[0] - t1 * batch_size:, :]
 		lstm_model = fit_lstm(train_trimmed, batch_size, 30, 4)
 		# forecast the entire training dataset to build up state for forecasting
 		if seed:
