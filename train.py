@@ -90,7 +90,8 @@ def experiment(repeats, series, seed):
 	supervised = timeseries_to_supervised(diff_values, lag2)
 	supervised_values = supervised.values
 	# split data into train and test-sets
-	train, test = supervised_values[0:-12], supervised_values[-12:]
+	test_data_num = 4
+	train, test = supervised_values[0:-test_data_num], supervised_values[-test_data_num:]
 	# transform the scale of the data
 	print(test)
 	scaler, train_scaled, test_scaled = scale(train, test)
@@ -127,8 +128,8 @@ def experiment(repeats, series, seed):
 			# store forecast
 			predictions.append(yhat)
 		# report performance
-		rmse = sqrt(mean_squared_error(raw_values[-12:], predictions))
-		print(predictions, raw_values[-12:])
+		rmse = sqrt(mean_squared_error(raw_values[-test_data_num:], predictions))
+		print(predictions, raw_values[-test_data_num:])
 		print('%d) Test RMSE: %.3f' % (r + 1, rmse))
 		error_scores.append(rmse)
 	return error_scores
