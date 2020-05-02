@@ -142,9 +142,11 @@ def predict(job, seq):
 
 	batch_size = int(models[job]['batch_size'])
 
-	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
+	df = read_csv('./data/' + job + '.csv', header=0, index_col=0, squeeze=True)
 	df = df.tail(batch_size * 2 - 1)
 	df = df.append(data, ignore_index=True)
+
+	print(df[0].shape)
 
 	# transform data to be stationary
 	raw_values = df.values
