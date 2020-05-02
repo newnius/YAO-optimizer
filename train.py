@@ -60,7 +60,6 @@ def invert_scale(scaler, X, yhat):
 
 # fit an LSTM network to training data
 def fit_lstm(train, batch_size2, nb_epoch, neurons):
-
 	X, y = train[:, 0:-1], train[:, -1]
 	X = X.reshape(X.shape[0], 1, X.shape[1])
 	model = Sequential()
@@ -123,6 +122,7 @@ def experiment(repeats, series, seed):
 			predictions.append(yhat)
 		# report performance
 		rmse = sqrt(mean_squared_error(raw_values[-12:], predictions))
+		print(predictions, raw_values[-12:])
 		print('%d) Test RMSE: %.3f' % (r + 1, rmse))
 		error_scores.append(rmse)
 	return error_scores
