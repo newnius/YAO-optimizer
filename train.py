@@ -110,7 +110,7 @@ def experiment(repeats, series, seed):
 		print(train_trimmed[:, 0])
 		print(train_trimmed[:, :])
 		if seed:
-			train_reshaped = train_trimmed[:, :].reshape(len(train_trimmed), 1, lag2)
+			train_reshaped = train_trimmed[:, :].reshape(len(train_trimmed), 1, lag2+1)
 			lstm_model.predict(train_reshaped, batch_size=batch_size)
 		# forecast test dataset
 		test_reshaped = test_scaled[:, 0:-1]
