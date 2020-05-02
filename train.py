@@ -108,9 +108,9 @@ def experiment(repeats, series, seed):
 		# forecast the entire training dataset to build up state for forecasting
 		print(train_trimmed)
 		print(train_trimmed[:, 0])
-		print(train_trimmed[:, :])
+		print(train_trimmed[:, :-2])
 		if seed:
-			train_reshaped = train_trimmed[:, :].reshape(len(train_trimmed), 1, lag2+1)
+			train_reshaped = train_trimmed[:, :-2].reshape(len(train_trimmed), 1, lag2)
 			lstm_model.predict(train_reshaped, batch_size=batch_size)
 		# forecast test dataset
 		test_reshaped = test_scaled[:, 0:-1]
