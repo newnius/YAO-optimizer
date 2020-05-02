@@ -109,7 +109,7 @@ predictions = list()
 for j in range(len(test_scaled)):
 	# make one-step forecast
 	X, y = test_scaled[j, 0:-1], test_scaled[j, -1]
-	yhat = forecast_lstm(lstm_model, 1, X)
+	yhat = forecast_lstm(lstm_model, 32, X)
 	# invert scaling
 	yhat = invert_scale(scaler, X, yhat)
 	# invert differencing
