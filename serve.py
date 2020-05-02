@@ -135,7 +135,7 @@ def train_models(job):
 
 
 def predict(job, seq):
-	if job not in models or 'model' not in models[job]:
+	if job not in models or 'batch_size' not in models[job]:
 		return -1, False
 
 	batch_size = int(models[job]['batch_size'])
