@@ -136,14 +136,15 @@ def predict(job, seq):
 		'value': 0,
 	}
 
-	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
-	df = df.tail(int(models[job]['batch_size']) * 2 - 1)
-	df = df.append(data, ignore_index=True)
-
 	batch_size = int(models[job]['batch_size'])
+
+	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
+	df = df.tail(batch_size * 2 - 1)
+	df = df.append(data, ignore_index=True)
 
 	# transform data to be stationary
 	raw_values = df.values
+	print(raw_values)
 	diff_values = difference(raw_values, 1)[batch_size:]
 	# transform data to be supervised learning
 	lag = 4
@@ -151,6 +152,7 @@ def predict(job, seq):
 	supervised_values = supervised.values
 
 	test = supervised_values
+	print(test)
 
 	test = test.reshape(test.shape[0], test.shape[1])
 	test_scaled = models[job]['scaler'].transform(test)
