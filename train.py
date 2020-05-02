@@ -76,7 +76,7 @@ def fit_lstm(train, batch_size, nb_epoch, neurons):
 
 # make a one-step forecast
 def forecast_lstm(model, batch_size, X):
-	X = X.reshape(1, 1, len(X))
+	X = X.reshape(X.shape[0], X.shape[1], len(X))
 	yhat = model.predict(X, batch_size=batch_size)
 	return yhat[0, 0]
 
