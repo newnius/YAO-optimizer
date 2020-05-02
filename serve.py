@@ -135,19 +135,12 @@ def predict(job, seq):
 		return -1, False
 
 	# load dataset
-	data = {
-		'seq': seq,
-		'value': 0,
-	}
 
 	batch_size = int(models[job]['batch_size'])
 
 	df = read_csv('./data/' + job + '.csv', header=0, index_col=0, squeeze=True)
 	df = df.tail(batch_size * 2 - 1)
-	df.loc[df.shape[0]] = {
-		'seq': seq,
-		'value': 0,
-	}
+	df.loc[df.shape[0]] = [seq, 0]
 
 	print(df[0].shape)
 
