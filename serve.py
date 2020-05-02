@@ -21,6 +21,7 @@ import numpy
 import random
 import traceback
 from keras.models import load_model
+from sklearn.externals import joblib
 
 PORT_NUMBER = 8080
 lock = Lock()
@@ -127,8 +128,9 @@ def train_models(job):
 	model = fit_lstm(train_trimmed, batch_size, 30, 4)
 
 	model.save('./data/checkpoint-' + job)
+	scaler_filename = './data/checkpoint-' + job + "-scaler.save"
+	joblib.dump(scaler, scaler_filename)
 
-	models[job]['scaler'] = scaler
 	models[job]['batch_size'] = batch_size
 
 	models[job]['lock'].release()
@@ -145,6 +147,8 @@ def predict(job, seq):
 		'value': 0,
 	}
 	model = load_model('./data/checkpoint-' + job)
+	scaler_filename = './data/checkpoint-' + job + "-scaler.save"
+	scaler = joblib.load(scaler_filename)
 
 	file = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
 	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
@@ -174,7 +178,7 @@ def predict(job, seq):
 	print(test)
 
 	test = test.reshape(test.shape[0], test.shape[1])
-	test_scaled = models[job]['scaler'].transform(test)
+	test_scaled = scaler.transform(test)
 
 	# forecast the entire training dataset to build up state for forecasting
 	test_reshaped = test_scaled[:, 0:-1]
@@ -185,7 +189,7 @@ def predict(job, seq):
 		yhat = output[i, 0]
 		X = test_scaled[i, 0:-1]
 		# invert scaling
-		yhat = invert_scale(models[job]['scaler'], X, yhat)
+		yhat = invert_scale(scaler, X, yhat)
 		# invert differencing
 		yhat = inverse_difference(raw_values, yhat, len(test_scaled) + 1 - i)
 		# store forecast
