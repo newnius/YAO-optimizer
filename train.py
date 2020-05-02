@@ -70,6 +70,7 @@ def fit_lstm(train, batch_size, nb_epoch, neurons):
 	model.add(Dense(1))
 	model.compile(loss='mean_squared_error', optimizer='adam')
 	for i in range(nb_epoch):
+		print("Epoch {}/{}".format(i, nb_epoch))
 		model.fit(X, y, epochs=1, batch_size=batch_size, verbose=0, shuffle=False)
 		model.reset_states()
 	return model
@@ -99,8 +100,13 @@ def experiment(repeats, series, seed):
 	for r in range(repeats):
 		# fit the model
 		batch_size = 4
+		t = train.shape[0] % batch_size
+		train = train[train.shape[0] - t * batch_size:]
+		test = test.shape[0] % batch_size
+		test = test[test.shape[0] - t * batch_size:]
+
 		train_trimmed = train_scaled[2:, :]
-		lstm_model = fit_lstm(train_trimmed, batch_size, 3000, 4)
+		lstm_model = fit_lstm(train_trimmed, batch_size, 30, 4)
 		# forecast the entire training dataset to build up state for forecasting
 		if seed:
 			train_reshaped = train_trimmed[:, 0].reshape(len(train_trimmed), 1, 1)
