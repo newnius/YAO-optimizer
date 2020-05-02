@@ -93,6 +93,7 @@ def train_models(job):
 	# transform data to be supervised learning
 	lag = 4
 	supervised = timeseries_to_supervised(diff_values, lag)
+	print(supervised)
 	supervised_values = supervised.values
 
 	batch_size = 32
@@ -127,7 +128,7 @@ def train_models(job):
 
 
 def predict(job, seq):
-	if job not in models:
+	if job not in models or 'model' not in models[job]:
 		return -1, False
 
 	# load dataset
@@ -151,6 +152,7 @@ def predict(job, seq):
 	# transform data to be supervised learning
 	lag = 4
 	supervised = timeseries_to_supervised(diff_values, lag)
+	print(type(supervised))
 	print(supervised)
 	supervised_values = supervised.values[batch_size:]
 
