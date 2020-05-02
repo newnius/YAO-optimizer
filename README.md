@@ -9,3 +9,10 @@
 
 ## predict
 /predict?job=lstm&seq=2
+
+
+## Make Data
+
+```bash
+cat data/stock_data.csv | awk -F',' '{print NR "," $5 }' > data/stock.csv
+```
