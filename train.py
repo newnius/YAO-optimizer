@@ -102,7 +102,7 @@ def experiment(repeats, series, seed):
 		batch_size = 4
 		t = train.shape[0] % batch_size
 		train = train[train.shape[0] - t * batch_size:]
-		test = test.shape[0] % batch_size
+		t = test.shape[0] % batch_size
 		test = test[test.shape[0] - t * batch_size:]
 
 		train_trimmed = train_scaled[2:, :]
