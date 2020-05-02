@@ -69,6 +69,7 @@ def fit_lstm(train, batch_size2, nb_epoch, neurons):
 		model.fit(X, y, epochs=1, batch_size=batch_size2, verbose=0, shuffle=False)
 		# loss = model.evaluate(X, y)
 		# print("Epoch {}/{}, loss = {}".format(i, nb_epoch, loss))
+		print("Epoch {}/{}".format(i, nb_epoch))
 		model.reset_states()
 	return model
 
