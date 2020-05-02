@@ -10,11 +10,13 @@ RUN apt update && \
 	apt install -y git vim httpie && \
 	rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install pandas sklearn tensorflow-gpu==1.14
+RUN pip3 install pandas sklearn tensorflow-gpu==1.14 keras
 
 ADD bootstrap.sh /etc/bootstrap.sh
 
-ADD agent.py /root/agent.py
+RUN mkdir /root/data/
+ADD serve.py /root/serve.py
+ADD model_tensorflow.py /root/model_tensorflow.py
 
 WORKDIR /root
 

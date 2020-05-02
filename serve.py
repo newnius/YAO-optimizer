@@ -14,8 +14,8 @@ import csv
 
 
 class Config:
-	feature_columns = list(range(0, 6))
-	label_columns = [3, 4, 5]
+	feature_columns = list(range(0, 2))
+	label_columns = [1]
 	feature_and_label_columns = feature_columns + label_columns
 	label_in_feature_columns = (lambda x, y: [x.index(i) for i in y])(feature_columns, label_columns)
 
@@ -34,7 +34,8 @@ class Config:
 	add_train = False
 	shuffle_train_data = True
 
-	train_data_rate = 0.95
+	# train_data_rate = 0.95 #comment yqy
+	train_data_rate = 1  # add yqy
 	valid_data_rate = 0.15
 
 	batch_size = 64
@@ -50,10 +51,10 @@ class Config:
 		batch_size = 1
 		continue_flag = "continue_"
 
-	train_data_path = "./data.csv"
-	test_data_path = "./test.csv"
+	train_data_path = "./data/data.csv"
 	model_save_path = "./checkpoint/"
 	figure_save_path = "./figure/"
+
 	do_figure_save = False
 	if not os.path.exists(model_save_path):
 		os.mkdir(model_save_path)
@@ -74,17 +75,14 @@ class Data:
 		self.train_num = int(self.data_num * self.config.train_data_rate)
 
 		self.mean = np.mean(self.data, axis=0)
-
-		self.std = np.std(self.data, axis=0)
+		self.std = np.std(self.data, axis=0) + 0.0001
 		self.norm_data = (self.data - self.mean) / self.std
 
 		self.start_num_in_test = 0
 
 	def read_data(self):
-		init_data = pd.read_csv(
-			self.config.train_data_path,
-			usecols=self.config.feature_and_label_columns
-		)
+		init_data = pd.read_csv(self.config.train_data_path,
+		                        usecols=self.config.feature_and_label_columns)
 		return init_data.values, init_data.columns.tolist()
 
 	def get_train_and_valid_data(self):
@@ -112,22 +110,6 @@ class Data:
 		return train_x, valid_x, train_y, valid_y
 
 	def get_test_data(self, return_label_data=False):
-		init_data = pd.read_csv(
-			self.config.test_data_path,
-			usecols=self.config.feature_and_label_columns
-		)
-		norm_data = (init_data - self.mean) / self.std
-		feature_data = norm_data[:]
-		time_step_size = feature_data.shape[0] // self.config.time_step
-
-		test_x = [feature_data[0 + i * self.config.time_step: 0 + (
-				i + 1) * self.config.time_step]
-		          for i in range(time_step_size)]
-		if return_label_data:
-			label_data = norm_data[0:, self.config.label_in_feature_columns]
-			return np.array(test_x), label_data
-		return np.array(test_x)
-
 		feature_data = self.norm_data[self.train_num:]
 		self.start_num_in_test = feature_data.shape[0] % self.config.time_step
 		time_step_size = feature_data.shape[0] // self.config.time_step
@@ -140,30 +122,49 @@ class Data:
 			return np.array(test_x), label_data
 		return np.array(test_x)
 
+	# add yqy
+	def get_test_data_yqy(self, test_data_yqy=None):
+		if test_data_yqy is None:
+			test_data_yqy = []
+		# test_data_yqy=test_data_yqy[1:21]
+		feature_data = (test_data_yqy - self.mean) / self.std
+		test_x = [feature_data]
+		return np.array(test_x)
 
-def draw(config, origin_data, predict_norm_data):
-	label_norm_data = origin_data.norm_data[origin_data.train_num + origin_data.start_num_in_test:,
-	                  config.label_in_feature_columns]
+
+# add end
+
+
+def draw_yqy(config2, origin_data, predict_norm_data, mean_yqy, std_yqy):
+	label_norm_data = (origin_data - mean_yqy) / std_yqy
 	assert label_norm_data.shape[0] == predict_norm_data.shape[
 		0], "The element number in origin and predicted data is different"
 
-	label_name = [origin_data.data_column_name[i] for i in config.label_in_feature_columns]
-	label_column_num = len(config.label_columns)
+	print("dsa")
+	# label_norm_data=label_norm_data[:,1]
+	label_name = 'high'
+	label_column_num = 3
 
-	loss = np.mean((label_norm_data[config.predict_day:] - predict_norm_data[:-config.predict_day]) ** 2, axis=0)
+	loss = \
+		np.mean((label_norm_data[config.predict_day:, 1:2] - predict_norm_data[:-config.predict_day]) ** 2, axis=0)
 	print("The mean squared error of stock {} is ".format(label_name), loss)
 
-	label_X = range(origin_data.data_num - origin_data.train_num - origin_data.start_num_in_test)
-	predict_X = [x + config.predict_day for x in label_X]
+	# label_X = range(origin_data.data_num - origin_data.train_num - origin_data.start_num_in_test)
+	# predict_X = [x + config.predict_day for x in label_X]
 
-	label_data = label_norm_data * origin_data.std[config.label_in_feature_columns] + \
-	             origin_data.mean[config.label_in_feature_columns]
+	print("2")
 
-	predict_data = predict_norm_data * origin_data.std[config.label_in_feature_columns] + \
-	               origin_data.mean[config.label_in_feature_columns]
-
+	print(label_norm_data[:, 1:2])
+	label_data = label_norm_data[:, 1:2] * std_yqy[1:2] + mean_yqy[1:2]
 	print(label_data)
+
+	print(predict_norm_data)
+	predict_data = predict_norm_data * std_yqy[config.label_in_feature_columns] + mean_yqy[
+		config.label_in_feature_columns]
 	print(predict_data)
+
+	print(label_data[:, -1])
+	print(predict_data[:, -1])
 
 
 PORT_NUMBER = 8080
@@ -179,6 +180,11 @@ def train_models():
 	train_X, valid_X, train_Y, valid_Y = data_gainer.get_train_and_valid_data()
 
 	print(train_X, valid_X, train_Y, valid_Y)
+	print(train_X.shape[0])
+	if train_X.shape[0] < 500:
+		config.batch_size = 32
+	if train_X.shape[0] < 200:
+		config.batch_size = 16
 
 	train(config, train_X, train_Y, valid_X, valid_Y)
 
@@ -199,15 +205,39 @@ class MyHandler(BaseHTTPRequestHandler):
 
 		elif req.path == "/predict":
 			try:
-				job = query.get('job')[0]
-				gpu_model = query.get('gpu_model')[0]
-				time = query.get('time')[0]
+				data = {
+					'job': query.get('job')[0],
+					'model': query.get('model')[0],
+					'time': query.get('time')[0],
+					'utilGPU': query.get('utilGPU')[0],
+					'utilCPU': query.get('utilCPU')[0],
+					'pre': 0,
+					'main': 0,
+					'post': 0
+				}
+
+				data = {
+					'seq': query.get('job')[0],
+					'value': query.get('model')[0],
+				}
+
+				with open(config.train_data_path, 'r') as f:
+					df = pd.read_csv(config.train_data_path, usecols=['seq', 'value'])
+					df = df.tail(config.time_step - 1)
+					df = df.append(data, ignore_index=True)
+					df.to_csv('./data/test_data.csv', index=False)
+
+				np.random.seed(config.random_seed)
 				data_gainer = Data(config)
-				test_X, test_Y = data_gainer.get_test_data(return_label_data=True)
-				print(test_X, test_Y)
+				test_data_yqy = pd.read_csv("./data/test_data.csv", usecols=list(range(0, 2)))
+				test_data_values = test_data_yqy.values[:]
+				test_X = data_gainer.get_test_data_yqy(test_data_values)
 				pred_result = predict(config, test_X)
-				print(pred_result)
-				draw(config, data_gainer, pred_result)
+
+				mean = Data(config).mean
+				std = Data(config).std
+				draw_yqy(config, test_data_values, pred_result, mean, std)
+
 				msg = {'code': 1, 'error': "container not exist"}
 			except Exception as e:
 				msg = {'code': 2, 'error': str(e)}
@@ -221,15 +251,22 @@ class MyHandler(BaseHTTPRequestHandler):
 				job = query.get('job')[0]
 				model = query.get('model')[0]
 				time = query.get('time')[0]
+				utilGPU = query.get('utilGPU')[0]
+				utilCPU = query.get('utilCPU')[0]
 				pre = query.get('pre')[0]
 				main = query.get('main')[0]
 				post = query.get('post')[0]
+
+				seq = query.get('seq')[0]
+				value = query.get('value')[0]
+
 				with open(config.train_data_path, 'a+', newline='') as csvfile:
 					spamwriter = csv.writer(
 						csvfile, delimiter=',',
 						quotechar='|', quoting=csv.QUOTE_MINIMAL
 					)
-					spamwriter.writerow([job, model, time, pre, main, post])
+					# spamwriter.writerow([job, model, time, utilGPU, utilCPU, pre, main, post])
+					spamwriter.writerow([seq, value])
 				msg = {'code': 1, 'error': "container not exist"}
 			except Exception as e:
 				msg = {'code': 2, 'error': str(e)}
@@ -293,7 +330,8 @@ if __name__ == '__main__':
 				csvfile, delimiter=',',
 				quotechar='|', quoting=csv.QUOTE_MINIMAL
 			)
-			spamwriter.writerow(["Job", "Model", "Time", "Pre", "Main", "Post"])
+			#spamwriter.writerow(["job", "model", "time", "utilGPU", "utilCPU", "pre", "main", "post"])
+			spamwriter.writerow(["seq", "value"])
 
 		# Wait forever for incoming http requests
 		server.serve_forever()
