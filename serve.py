@@ -97,11 +97,7 @@ def train_models(job):
 	# transform data to be supervised learning
 	lag = 4
 	supervised = timeseries_to_supervised(diff_values, lag)
-	print(supervised)
-	print(type(supervised))
-	print(supervised.shape)
 	supervised_values = supervised.values
-	print(supervised_values)
 
 	batch_size = 32
 	if supervised_values.shape[0] < 100:
@@ -161,21 +157,13 @@ def predict(job, seq):
 
 	# transform data to be stationary
 	raw_values = df.values
-	print(raw_values)
 	diff_values = difference(raw_values, 1)
-	print(diff_values)
 
 	# transform data to be supervised learning
 	lag = 4
 	supervised = timeseries_to_supervised(diff_values, lag)
-	print(type(supervised))
-	print(supervised)
 	supervised_values = supervised[-batch_size:]
-	print(type(supervised_values))
-	print(supervised_values)
-	print(supervised_values.shape)
 	test = supervised_values.values
-	print(test)
 
 	test = test.reshape(test.shape[0], test.shape[1])
 	test_scaled = scaler.transform(test)
@@ -198,7 +186,7 @@ def predict(job, seq):
 
 	rmse = sqrt(mean_squared_error(raw_values[-batch_size:], predictions))
 	print(predictions, raw_values[-batch_size:])
-	return 1, True
+	return predictions[-1], True
 
 
 class MyHandler(BaseHTTPRequestHandler):
@@ -223,6 +211,8 @@ class MyHandler(BaseHTTPRequestHandler):
 
 				if not success:
 					msg = {'code': 2, 'error': "Job " + job + " not exist"}
+				else:
+					msg = {'code': 2, 'error': "", "total": pred}
 			except Exception as e:
 				track = traceback.format_exc()
 				print(track)
