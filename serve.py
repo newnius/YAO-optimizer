@@ -145,11 +145,13 @@ def predict(job, seq):
 	# transform data to be stationary
 	raw_values = df.values
 	print(raw_values)
-	diff_values = difference(raw_values, 1)[batch_size:]
+	diff_values = difference(raw_values, 1)
+	print(diff_values)
+
 	# transform data to be supervised learning
 	lag = 4
 	supervised = timeseries_to_supervised(diff_values, lag)
-	supervised_values = supervised.values
+	supervised_values = supervised.values[batch_size:]
 
 	test = supervised_values
 	print(test)
