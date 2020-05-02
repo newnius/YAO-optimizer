@@ -157,7 +157,7 @@ def predict(job, seq):
 	print(supervised)
 	supervised_values = supervised[batch_size:]
 	print(supervised_values)
-	test = supervised_values.values
+	test = supervised_values#.values
 	print(test)
 
 	test = test.reshape(test.shape[0], test.shape[1])
