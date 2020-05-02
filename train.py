@@ -81,6 +81,8 @@ def forecast_lstm(model, batch_size, X):
 	return yhat[0, 0]
 
 
+batch_size = 12
+
 # load dataset
 series = read_csv('data.csv', header=0, index_col=0, squeeze=True)
 
@@ -99,17 +101,17 @@ train, test = supervised_values[0:-12], supervised_values[-12:]
 scaler, train_scaled, test_scaled = scale(train, test)
 
 # fit the model
-lstm_model = fit_lstm(train_scaled, 32, 30, 4)
+lstm_model = fit_lstm(train_scaled, batch_size, 30, 4)
 # forecast the entire training dataset to build up state for forecasting
 train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
-lstm_model.predict(train_reshaped, batch_size=32)
+lstm_model.predict(train_reshaped, batch_size=batch_size)
 
 # walk-forward validation on the test data
 predictions = list()
 for j in range(len(test_scaled)):
 	# make one-step forecast
 	X, y = test_scaled[j, 0:-1], test_scaled[j, -1]
-	yhat = forecast_lstm(lstm_model, 32, X)
+	yhat = forecast_lstm(lstm_model, batch_size, X)
 	# invert scaling
 	yhat = invert_scale(scaler, X, yhat)
 	# invert differencing
