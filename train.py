@@ -90,7 +90,7 @@ def experiment(repeats, series, seed):
 	raw_values = series.values
 	diff_values = difference(raw_values, 1)
 	# transform data to be supervised learning
-	lag2 = 10
+	lag2 = 4
 	supervised = timeseries_to_supervised(diff_values, lag2)
 	supervised_values = supervised.values
 	# split data into train and test-sets
@@ -103,7 +103,7 @@ def experiment(repeats, series, seed):
 	error_scores = list()
 	for r in range(repeats):
 		# fit the model
-		batch_size = 4
+		batch_size = 32
 		t1 = train.shape[0] % batch_size
 		t2 = test.shape[0] % batch_size
 
