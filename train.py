@@ -108,7 +108,7 @@ def experiment(repeats, series, seed):
 		t2 = test.shape[0] % batch_size
 
 		train_trimmed = train_scaled[t1:, :]
-		lstm_model = fit_lstm(train_trimmed, batch_size, 300, 4)
+		lstm_model = fit_lstm(train_trimmed, batch_size, 30, 4)
 		# forecast the entire training dataset to build up state for forecasting
 		print(train_trimmed)
 		print(train_trimmed[:, 0])
