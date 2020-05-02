@@ -12,11 +12,6 @@ from math import sqrt
 import numpy
 
 
-# date-time parsing function for loading the dataset
-def parser(x):
-	return datetime.strptime('190' + x, '%Y-%m')
-
-
 # frame a sequence as a supervised learning problem
 def timeseries_to_supervised(data, lag=1):
 	df = DataFrame(data)
@@ -104,7 +99,7 @@ train, test = supervised_values[0:-12], supervised_values[-12:]
 scaler, train_scaled, test_scaled = scale(train, test)
 
 # fit the model
-lstm_model = fit_lstm(train_scaled, 1, 30, 4)
+lstm_model = fit_lstm(train_scaled, 32, 30, 4)
 # forecast the entire training dataset to build up state for forecasting
 train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
 lstm_model.predict(train_reshaped, batch_size=1)
