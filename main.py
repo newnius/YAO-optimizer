@@ -187,7 +187,6 @@ def draw_yqy(config, origin_data, predict_norm_data, mean_yqy, std_yqy):  # è¿™é
 # print(label_data[-1])
 # print(predict_data[-1][0])
 
-
 def main(config):
 	np.random.seed(config.random_seed)
 	data_gainer = Data(config)

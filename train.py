@@ -90,7 +90,7 @@ def experiment(repeats, series, seed):
 	supervised = timeseries_to_supervised(diff_values, lag2)
 	supervised_values = supervised.values
 	# split data into train and test-sets
-	test_data_num = 4
+	test_data_num = 12
 	train, test = supervised_values[0:-test_data_num], supervised_values[-test_data_num:]
 	# transform the scale of the data
 	print(test)
