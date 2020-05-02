@@ -142,7 +142,7 @@ def predict(job, seq):
 		'value': 0,
 	}
 
-	file = './data/' + job + '.' + random.randint(1000, 9999) + '.csv'
+	file = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
 	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
 	df = df.tail(batch_size * 2 - 1)
 	df = df.append(data, ignore_index=True)
