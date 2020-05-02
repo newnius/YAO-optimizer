@@ -104,14 +104,14 @@ def experiment(repeats, series, seed):
 		t2 = test.shape[0] % batch_size
 
 		train_trimmed = train_scaled[train_scaled.shape[0] - t1 * batch_size:, :]
-		lstm_model = fit_lstm(train_trimmed, batch_size, 30, 4)
+		lstm_model = fit_lstm(train_trimmed, batch_size, 300, 4)
 		# forecast the entire training dataset to build up state for forecasting
 		print(train_trimmed)
 		print(train_trimmed[:, 0])
 		print(train_trimmed[:, :-1])
-		if seed:
-			train_reshaped = train_trimmed[:, :-1].reshape(len(train_trimmed), 1, lag2)
-			lstm_model.predict(train_reshaped, batch_size=batch_size)
+		# if seed:
+		#	train_reshaped = train_trimmed[:, :-1].reshape(len(train_trimmed), 1, lag2)
+		#	lstm_model.predict(train_reshaped, batch_size=batch_size)
 		# forecast test dataset
 		test_reshaped = test_scaled[:, 0:-1]
 		test_reshaped = test_reshaped.reshape(len(test_reshaped), 1, lag2)
@@ -137,7 +137,7 @@ def experiment(repeats, series, seed):
 # load dataset
 series = read_csv('data.csv', header=0, index_col=0, squeeze=True)
 # experiment
-repeats = 30
+repeats = 1
 results = DataFrame()
 # with seeding
 with_seed = experiment(repeats, series, True)
