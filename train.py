@@ -86,7 +86,7 @@ def forecast_lstm(model, batch_size, X):
 def experiment(repeats, series, seed):
 	# transform data to be stationary
 	raw_values = series.values
-	diff_values = difference(raw_values, 3)
+	diff_values = difference(raw_values, 1)
 	# transform data to be supervised learning
 	lag2 = 4
 	supervised = timeseries_to_supervised(diff_values, lag2)
