@@ -208,13 +208,11 @@ class MyHandler(BaseHTTPRequestHandler):
 				msg = {'code': 0, 'error': ""}
 
 				pred, success = predict(job, int(seq))
-				print(pred)
-				print(type(pred))
 
 				if not success:
 					msg = {'code': 2, 'error': "Job " + job + " not exist"}
 				else:
-					msg = {'code': 0, 'error': "", "total": pred}
+					msg = {'code': 0, 'error': "", "total": int(pred)}
 			except Exception as e:
 				track = traceback.format_exc()
 				print(track)
