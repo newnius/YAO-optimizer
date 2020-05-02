@@ -114,7 +114,7 @@ def experiment(repeats, series, seed):
 			lstm_model.predict(train_reshaped, batch_size=batch_size)
 		# forecast test dataset
 		test_reshaped = test_scaled[:, 0:-1]
-		test_reshaped = test_reshaped.reshape(len(test_reshaped), 1, 1)
+		test_reshaped = test_reshaped.reshape(len(test_reshaped), 1, lag2)
 		output = lstm_model.predict(test_reshaped, batch_size=batch_size)
 		predictions = list()
 		for i in range(len(output)):
