@@ -193,17 +193,17 @@ class MyHandler(BaseHTTPRequestHandler):
 			self.wfile.write(bytes("pong", "utf-8"))
 
 		elif req.path == "/predict":
-			try:
-				job = query.get('job')[0]
-				seq = query.get('seq')[0]
-				msg = {'code': 0, 'error': ""}
+			#try:
+			job = query.get('job')[0]
+			seq = query.get('seq')[0]
+			msg = {'code': 0, 'error': ""}
 
-				pred, success = predict(job, int(seq))
+			pred, success = predict(job, int(seq))
 
-				if not success:
-					msg = {'code': 2, 'error': "Job " + job + " not exist"}
-			except Exception as e:
-				msg = {'code': 1, 'error': str(e)}
+			if not success:
+				msg = {'code': 2, 'error': "Job " + job + " not exist"}
+		#except Exception as e:
+			msg = {'code': 1, 'error': str(e)}
 
 			self.send_response(200)
 			self.send_header('Content-type', 'application/json')
