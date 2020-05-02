@@ -193,10 +193,10 @@ class MyHandler(BaseHTTPRequestHandler):
 				job = query.get('job')[0]
 				seq = query.get('seq')[0]
 
-				predict(job, seq)
-				msg = {'code': 1, 'error': "container not exist"}
+				predict(job, int(seq))
+				msg = {'code': 0, 'error': ""}
 			except Exception as e:
-				msg = {'code': 2, 'error': str(e)}
+				msg = {'code': 1, 'error': str(e)}
 
 			self.send_response(200)
 			self.send_header('Content-type', 'application/json')
