@@ -106,6 +106,8 @@ lstm_model = fit_lstm(train_scaled, batch_size, 30, 4)
 train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
 lstm_model.predict(train_reshaped, batch_size=batch_size)
 
+print(raw_values)
+print(diff_values)
 print(supervised_values)
 print(train, test)
 print(train_scaled, test_scaled)
