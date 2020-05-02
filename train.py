@@ -92,7 +92,11 @@ def experiment(repeats, series, seed):
 	supervised = timeseries_to_supervised(diff_values, lag2)
 	supervised_values = supervised.values
 
-	test_data_num = 32
+	batch_size = 32
+	if supervised_values.shape[0] < 100:
+		batch_size = 16
+	test_data_num = batch_size
+
 	# split data into train and test-sets
 	train, test = supervised_values[0:-test_data_num], supervised_values[-test_data_num:]
 	# transform the scale of the data
@@ -103,7 +107,6 @@ def experiment(repeats, series, seed):
 	error_scores = list()
 	for r in range(repeats):
 		# fit the model
-		batch_size = 32
 		t1 = train.shape[0] % batch_size
 		t2 = test.shape[0] % batch_size
 
