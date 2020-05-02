@@ -110,10 +110,10 @@ lstm_model.predict(train_reshaped, batch_size=batch_size)
 predictions = list()
 for j in range(len(test_scaled)):
 	# make one-step forecast
-	X, y = test_scaled[j, 0:-1], test_scaled[j, -1]
-	yhat = forecast_lstm(lstm_model, batch_size, X)
+	#X, y = test_scaled[j, 0:-1], test_scaled[j, -1]
+	yhat = forecast_lstm(lstm_model, batch_size, test_scaled)
 	# invert scaling
-	yhat = invert_scale(scaler, X, yhat)
+	yhat = invert_scale(scaler, test_scaled, yhat)
 	# invert differencing
 	yhat = inverse_difference(raw_values, yhat, len(test_scaled) + 1 - j)
 	# store forecast
