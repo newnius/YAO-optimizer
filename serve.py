@@ -18,6 +18,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from math import sqrt
 import numpy
+import random
 
 PORT_NUMBER = 8080
 lock = Lock()
@@ -134,13 +135,21 @@ def predict(job, seq):
 	if job not in models or 'model' not in models[job]:
 		return -1, False
 
-	# load dataset
-
 	batch_size = int(models[job]['batch_size'])
 
-	df = read_csv('./data/' + job + '.csv', header=0, index_col=0, squeeze=True)
+	data = {
+		'seq': seq,
+		'value': 0,
+	}
+
+	file = './data/' + job + '.' + random.randint(1000, 9999) + '.csv'
+	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
 	df = df.tail(batch_size * 2 - 1)
-	df.loc[df.shape[0]] = [seq, 0]
+	df = df.append(data, ignore_index=True)
+	df.to_csv(file, index=False)
+
+	# load dataset
+	df = read_csv(file, header=0, index_col=0, squeeze=True)
 
 	# transform data to be stationary
 	raw_values = df.values
