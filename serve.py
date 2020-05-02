@@ -142,8 +142,6 @@ def predict(job, seq):
 	df = df.tail(batch_size * 2 - 1)
 	df.loc[df.shape[0]] = [seq, 0]
 
-	print(df[0].shape)
-
 	# transform data to be stationary
 	raw_values = df.values
 	print(raw_values)
