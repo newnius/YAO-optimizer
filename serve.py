@@ -162,7 +162,7 @@ def predict(job, seq):
 	supervised = timeseries_to_supervised(diff_values, lag)
 	print(type(supervised))
 	print(supervised)
-	supervised_values = supervised[batch_size:]
+	supervised_values = supervised[-batch_size:]
 	print(type(supervised_values))
 	print(supervised_values)
 	print(supervised_values.shape)
