@@ -92,7 +92,9 @@ def experiment(repeats, series, seed):
 	# split data into train and test-sets
 	train, test = supervised_values[0:-12], supervised_values[-12:]
 	# transform the scale of the data
+	print(test)
 	scaler, train_scaled, test_scaled = scale(train, test)
+	print(test_scaled)
 	# run experiment
 	error_scores = list()
 	for r in range(repeats):
