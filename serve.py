@@ -20,6 +20,7 @@ from math import sqrt
 import numpy
 import random
 import traceback
+from keras.models import load_model
 
 PORT_NUMBER = 8080
 lock = Lock()
@@ -125,7 +126,8 @@ def train_models(job):
 	train_trimmed = train_scaled[t1:, :]
 	model = fit_lstm(train_trimmed, batch_size, 30, 4)
 
-	models[job]['model'] = model
+	model.saver.save('./data/checkpoint-' + job)
+
 	models[job]['scaler'] = scaler
 	models[job]['batch_size'] = batch_size
 
@@ -142,6 +144,7 @@ def predict(job, seq):
 		'seq': seq,
 		'value': 0,
 	}
+	model = load_model('./data/checkpoint-' + job)
 
 	file = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
 	df = pd.read_csv('./data/' + job + '.csv', usecols=['seq', 'value'])
@@ -176,7 +179,7 @@ def predict(job, seq):
 	# forecast the entire training dataset to build up state for forecasting
 	test_reshaped = test_scaled[:, 0:-1]
 	test_reshaped = test_reshaped.reshape(len(test_reshaped), 1, lag)
-	output = models[job]['model'].predict(test_reshaped, batch_size=batch_size)
+	output = model.predict(test_reshaped, batch_size=batch_size)
 	predictions = list()
 	for i in range(len(output)):
 		yhat = output[i, 0]

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0aedafd8-e57e-462a-beda-65af0b91f3df" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serve.py" beforeDir="false" afterPath="$PROJECT_DIR$/serve.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,7 +51,7 @@
           <entry key="csv" value="9" />
           <entry key="gitignore" value="12" />
           <entry key="md" value="141" />
-          <entry key="py" value="4212" />
+          <entry key="py" value="4274" />
           <entry key="sh" value="5" />
         </counts>
       </usages-collector>
@@ -60,7 +61,7 @@
           <entry key="Dockerfile" value="81" />
           <entry key="Markdown" value="141" />
           <entry key="PLAIN_TEXT" value="21" />
-          <entry key="Python" value="4212" />
+          <entry key="Python" value="4274" />
         </counts>
       </usages-collector>
     </session>
@@ -91,13 +92,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/serve.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="177" column="36" lean-forward="true" selection-start-line="177" selection-start-column="36" selection-end-line="177" selection-end-column="36" />
+            <state relative-caret-position="272">
+              <caret line="146" column="37" selection-start-line="146" selection-start-column="37" selection-end-line="146" selection-end-column="37" />
               <folding>
                 <element signature="e#18#46#0" expanded="true" />
-                <marker date="1588415612857" expanded="true" signature="1181:1184" ph="..." />
-                <marker date="1588415612857" expanded="true" signature="3444:3446" ph="..." />
-                <marker date="1588415612857" expanded="true" signature="4511:5243" ph="..." />
+                <marker date="1588416551324" expanded="true" signature="1198:1201" ph="..." />
+                <marker date="1588416551324" expanded="true" signature="3508:3510" ph="..." />
+                <marker date="1588416551324" expanded="true" signature="4610:5342" ph="..." />
               </folding>
             </state>
           </provider>
@@ -128,28 +129,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Dockerfile">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="58" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bootstrap.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="22" lean-forward="true" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model_tensorflow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="642">
-              <caret line="65" column="25" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="25" />
+            <state relative-caret-position="122">
+              <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="58" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -247,7 +230,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588415774610" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588416551402" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -288,12 +271,12 @@
       <option name="presentableId" value="Default" />
       <updated>1588152877746</updated>
       <workItem from="1588152880522" duration="16973000" />
-      <workItem from="1588319878551" duration="37388000" />
+      <workItem from="1588319878551" duration="38074000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54361000" />
+    <option name="totallyTimeSpent" value="55047000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -369,16 +352,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model_tensorflow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="642">
-          <caret line="65" column="25" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/stock_data.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="349">
@@ -417,16 +390,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="46" selection-start-line="46" selection-end-line="47" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -437,15 +400,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model_tensorflow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="46" selection-start-line="46" selection-end-line="47" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/serve.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="177" column="36" lean-forward="true" selection-start-line="177" selection-start-column="36" selection-end-line="177" selection-end-column="36" />
+        <state relative-caret-position="272">
+          <caret line="146" column="37" selection-start-line="146" selection-start-column="37" selection-end-line="146" selection-end-column="37" />
           <folding>
             <element signature="e#18#46#0" expanded="true" />
-            <marker date="1588415612857" expanded="true" signature="1181:1184" ph="..." />
-            <marker date="1588415612857" expanded="true" signature="3444:3446" ph="..." />
-            <marker date="1588415612857" expanded="true" signature="4511:5243" ph="..." />
+            <marker date="1588416551324" expanded="true" signature="1198:1201" ph="..." />
+            <marker date="1588416551324" expanded="true" signature="3508:3510" ph="..." />
+            <marker date="1588416551324" expanded="true" signature="4610:5342" ph="..." />
           </folding>
         </state>
       </provider>
