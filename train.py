@@ -62,6 +62,7 @@ def invert_scale(scaler, X, yhat):
 def fit_lstm(train, batch_size2, nb_epoch, neurons):
 	X, y = train[:, 0:-1], train[:, -1]
 	X = X.reshape(X.shape[0], 1, X.shape[1])
+	print(X, y)
 	model = Sequential()
 	model.add(LSTM(neurons, batch_input_shape=(batch_size2, X.shape[1], X.shape[2]), stateful=True))
 	model.add(Dense(1))
