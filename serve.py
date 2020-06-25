@@ -131,7 +131,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				if not success:
 					msg = {'code': 2, 'error': "Job " + job + " not exist"}
 				else:
-					msg = {'code': 0, 'error': "", "labels": json.dumps(pred)}
+					msg = {'code': 0, 'error': "", "labels": pred}
 			except Exception as e:
 				track = traceback.format_exc()
 				print(track)
