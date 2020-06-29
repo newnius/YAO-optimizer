@@ -62,7 +62,7 @@ def train_models(job):
 		# 计算准确率
 		MSE = mean_squared_error(y_test, y_pred)
 		RMSE = np.sqrt(MSE)
-		print('RMSE of ' + job + ' is ' + str(RMSE))
+		print('RMSE of {}:{} is {}'.format(job, label, str(RMSE)))
 
 	models[job]['lock'].release()
 
@@ -181,7 +181,8 @@ class MyHandler(BaseHTTPRequestHandler):
 							csvfile, delimiter=',',
 							quotechar='|', quoting=csv.QUOTE_MINIMAL
 						)
-						spamwriter.writerow(values)
+						for i in range(5):
+							spamwriter.writerow(values)
 
 				models[job]['lock'].release()
 				msg = {'code': 0, 'error': ""}
