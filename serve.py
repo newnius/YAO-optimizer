@@ -76,6 +76,8 @@ def predict(job, features):
 		values.append(features[feature])
 
 	datafile = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
+	if not os.path.exists(datafile):
+		return -1, False
 	t = ['job']
 	t.extend(models[job]['features'])
 	with open(datafile, 'w', newline='') as csvfile:
@@ -99,6 +101,8 @@ def predict(job, features):
 	for label in models[job]['labels']:
 		# load the model from disk
 		modelfile = './data/' + job + '_' + label + '.sav'
+		if not os.path.exists(modelfile):
+			return -1, False
 		model = pickle.load(open(modelfile, 'rb'))
 		preds = model.predict(test_feature)
 		predictions[label] = preds[0]
