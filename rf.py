@@ -246,7 +246,7 @@ if __name__ == '__main__':
 		y_pred = adaboost_train(feature_data, label_data, test_feature)
 	elif algorithm == 'gbdt':
 		y_pred = adaboost_train(feature_data, label_data, test_feature)
-	elif algorithm == 'tree':
+	elif algorithm == 'dt':
 		y_pred = decision_tree_train(feature_data, label_data, test_feature)
 	else:
 		y_pred = random_forest_train(feature_data, label_data, test_feature)
@@ -259,5 +259,7 @@ if __name__ == '__main__':
 	r2 = 1 - MSE / var
 	# print(abs(test_label - y_pred) / test_label)
 	print(RMSE, r2)
-	for i in range(20):
-		print("{},{},{}".format(test_label[i], y_pred[i], (y_pred[i] - test_label[i]) / test_label[i]))
+	display_diff = os.getenv('display_diff', '0')
+	if display_diff == '1':
+		for i in range(20):
+			print("{},{},{}".format(test_label[i], y_pred[i], (y_pred[i] - test_label[i]) / test_label[i]))

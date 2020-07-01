@@ -185,8 +185,7 @@ class MyHandler(BaseHTTPRequestHandler):
 							csvfile, delimiter=',',
 							quotechar='|', quoting=csv.QUOTE_MINIMAL
 						)
-						for i in range(5):
-							spamwriter.writerow(values)
+						spamwriter.writerow(values)
 
 				models[job]['lock'].release()
 				msg = {'code': 0, 'error': ""}
