@@ -79,8 +79,6 @@ def predict(job, features):
 		values.append(features[feature])
 
 	datafile = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
-	if not os.path.exists(datafile):
-		return -1, False
 	t = ['job']
 	t.extend(models[job]['features'])
 	with open(datafile, 'w', newline='') as csvfile:
