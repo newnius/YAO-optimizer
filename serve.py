@@ -34,35 +34,38 @@ def train_models(job):
 	if job not in models or 'features' not in models[job]:
 		return
 	models[job]['lock'].acquire()
+	try:
+		for label in models[job]['labels']:
+			trainfile = './data/' + job + '_' + label + '.csv'
+			traindata = pd.read_csv(trainfile)
+			feature_data = traindata.iloc[:, 1:-1]
+			label_data = traindata.iloc[:, -1]
 
-	for label in models[job]['labels']:
-		trainfile = './data/' + job + '_' + label + '.csv'
-		traindata = pd.read_csv(trainfile)
-		feature_data = traindata.iloc[:, 1:-1]
-		label_data = traindata.iloc[:, -1]
+			X_train, X_test, y_train, y_test = train_test_split(feature_data, label_data, test_size=0.01)
+			params = {
+				'n_estimators': 70,
+				'max_depth': 13,
+				'min_samples_split': 10,
+				'min_samples_leaf': 5,  # 10
+				'max_features': len(models[job]['features']) - 1  # 7
+			}
+			# print(params)
+			model = RandomForestRegressor(**params)
+			model.fit(X_train, y_train)
 
-		X_train, X_test, y_train, y_test = train_test_split(feature_data, label_data, test_size=0.01)
-		params = {
-			'n_estimators': 70,
-			'max_depth': 13,
-			'min_samples_split': 10,
-			'min_samples_leaf': 5,  # 10
-			'max_features': len(models[job]['features']) - 1  # 7
-		}
-		# print(params)
-		model = RandomForestRegressor(**params)
-		model.fit(X_train, y_train)
+			# save the model to disk
+			modelname = './data/' + job + '_' + label + '.sav'
+			pickle.dump(model, open(modelname, 'wb'))
 
-		# save the model to disk
-		modelname = './data/' + job + '_' + label + '.sav'
-		pickle.dump(model, open(modelname, 'wb'))
-
-		# 对测试集进行预测
-		y_pred = model.predict(X_test)
-		# 计算准确率
-		MSE = mean_squared_error(y_test, y_pred)
-		RMSE = np.sqrt(MSE)
-		print('RMSE of {}:{} is {}'.format(job, label, str(RMSE)))
+			# 对测试集进行预测
+			y_pred = model.predict(X_test)
+			# 计算准确率
+			MSE = mean_squared_error(y_test, y_pred)
+			RMSE = np.sqrt(MSE)
+			print('RMSE of {}:{} is {}'.format(job, label, str(RMSE)))
+	except Exception as e:
+		print(traceback.format_exc())
+		print(str(e))
 
 	models[job]['lock'].release()
 
