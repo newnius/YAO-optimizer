@@ -78,24 +78,24 @@ def predict(job, features):
 	for feature in models[job]['features']:
 		values.append(features[feature])
 
-	datafile = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
+	testfile = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
 	t = ['job']
 	t.extend(models[job]['features'])
-	with open(datafile, 'w', newline='') as csvfile:
+	with open(testfile, 'w', newline='') as csvfile:
 		spamwriter = csv.writer(
 			csvfile, delimiter=',',
 			quotechar='|', quoting=csv.QUOTE_MINIMAL
 		)
 		spamwriter.writerow(t)
 
-	with open(datafile, 'a+', newline='') as csvfile:
+	with open(testfile, 'a+', newline='') as csvfile:
 		spamwriter = csv.writer(
 			csvfile, delimiter=',',
 			quotechar='|', quoting=csv.QUOTE_MINIMAL
 		)
 		spamwriter.writerow(values)
 
-	testdata = pd.read_csv(datafile)
+	testdata = pd.read_csv(testfile)
 	test_feature = testdata.iloc[:, 1:]
 
 	predictions = {}
@@ -103,13 +103,15 @@ def predict(job, features):
 		# load the model from disk
 		modelfile = './data/' + job + '_' + label + '.sav'
 		if not os.path.exists(modelfile):
+			if os.path.exists(testfile):
+				os.remove(testfile)
 			return -1, False
 		model = pickle.load(open(modelfile, 'rb'))
 		preds = model.predict(test_feature)
 		predictions[label] = preds[0]
 
-	if os.path.exists(datafile):
-		os.remove(datafile)
+	if os.path.exists(testfile):
+		os.remove(testfile)
 	return predictions, True
 
 
