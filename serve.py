@@ -41,7 +41,7 @@ def train_models(job):
 			feature_data = traindata.iloc[:, 1:-1]
 			label_data = traindata.iloc[:, -1]
 
-			X_train, X_test, y_train, y_test = train_test_split(feature_data, label_data, test_size=0.01)
+			x_train, x_test, y_train, y_test = train_test_split(feature_data, label_data, test_size=0.01)
 			params = {
 				'n_estimators': 70,
 				'max_depth': 13,
@@ -51,14 +51,14 @@ def train_models(job):
 			}
 			# print(params)
 			model = RandomForestRegressor(**params)
-			model.fit(X_train, y_train)
+			model.fit(x_train, y_train)
 
 			# save the model to disk
 			modelname = './data/' + job + '_' + label + '.sav'
 			pickle.dump(model, open(modelname, 'wb'))
 
 			# 对测试集进行预测
-			y_pred = model.predict(X_test)
+			y_pred = model.predict(x_test)
 			# 计算准确率
 			MSE = mean_squared_error(y_test, y_pred)
 			RMSE = np.sqrt(MSE)
@@ -76,7 +76,10 @@ def predict(job, features):
 
 	values = [job]
 	for feature in models[job]['features']:
-		values.append(features[feature])
+		if feature in features:
+			values.append(features[feature])
+		else:
+			values.append(0)
 
 	testfile = './data/' + job + '.' + str(random.randint(1000, 9999)) + '.csv'
 	t = ['job']
@@ -131,8 +134,6 @@ class MyHandler(BaseHTTPRequestHandler):
 			try:
 				job = query.get('job')[0]
 				features = json.loads(query.get('features')[0])
-				msg = {'code': 0, 'error': ""}
-
 				pred, success = predict(job, features)
 
 				if not success:
@@ -170,8 +171,15 @@ class MyHandler(BaseHTTPRequestHandler):
 				for label in models[job]['labels']:
 					values = [job]
 					for feature in models[job]['features']:
-						values.append(features[feature])
-					values.append(labels[label])
+						if feature in features:
+							values.append(features[feature])
+						else:
+							values.append(0)
+					if label in labels:
+						values.append(labels[label])
+					else:
+						values.append(0)
+
 					if flag:
 						t = ['job']
 						t.extend(models[job]['features'])
